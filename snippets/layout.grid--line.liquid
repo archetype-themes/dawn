@@ -1,0 +1,72 @@
+{% stylesheet %}
+  .layout-grid--line,
+  .layout-grid--line-internal {
+    --_color-primary: var(--color-primary, black);
+    --_color-secondary: var(--color-secondary, white);
+  
+    --_line-size: var(--layout-grid-line-size, var(--line-size-sm));
+    --_shade-line: var(--layout-grid-line-color-shade, 12%);
+    --_color-line: color-mix(in srgb, var(--_color-primary) var(--_shade-line), var(--_color-secondary));
+
+    --_filler-span--xs: var(--layout-grid--filler-span--xs, var(--layout-grid--filler-span, 0));
+    --_filler-span--sm: var(--layout-grid--filler-span--sm, var(--_filler-span--xs));
+    --_filler-span--md: var(--layout-grid--filler-span--md, var(--_filler-span--sm));
+    --_filler-span--lg: var(--layout-grid--filler-span--lg, var(--_filler-span--md));
+    --_filler-span--xl: var(--layout-grid--filler-span--xl, var(--_filler-span--lg));
+    --_filler-span: var(--_filler-span--xs);
+
+    --_filler-display--xs: var(--layout-grid--filler-display--xs, var(--layout-grid--filler-display, none));
+    --_filler-display--sm: var(--layout-grid--filler-display--sm, var(--_filler-display--xs));
+    --_filler-display--md: var(--layout-grid--filler-display--md, var(--_filler-display--sm));
+    --_filler-display--lg: var(--layout-grid--filler-display--lg, var(--_filler-display--md));
+    --_filler-display--xl: var(--layout-grid--filler-display--xl, var(--_filler-display--lg));
+    --_filler-display: var(--_filler-display--xs);
+
+    grid-gap: var(--_line-size);
+    gap: var(--_line-size);
+    background-color: var(--_color-line);
+
+    &:is(.layout-grid--line) {
+      padding: var(--_line-size);
+    }
+
+    &:after {
+      content: '';
+      display: var(--_filler-display);
+      height: 100%;
+      grid-column: span var(--_filler-span);
+      background-color: var(--_color-secondary);
+    }
+  }
+{% endstylesheet %}
+
+{% style %}
+  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+    .layout-grid--line,
+    .layout-grid--line-internal {
+      --_active-filler-span: var(--_filler-span--sm);
+      --_active-filler-display: var(--_filler-display--sm);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'md' %}) {
+    .layout-grid--filler-span--md {
+      --_active-filler-span: var(--_filler-span--md);
+      --_active-filler-display: var(--_filler-display--md);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'lg' %}) {
+    .layout-grid--filler-span--lg {
+      --_active-filler-span: var(--_filler-span--lg);
+      --_active-filler-display: var(--_filler-display--lg);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'xl' %}) {  
+    .layout-grid--filler-span--xl {
+      --_active-filler-span: var(--_filler-span--xl);
+      --_active-filler-display: var(--_filler-display--xl);
+    }
+  }
+{% endstyle %}

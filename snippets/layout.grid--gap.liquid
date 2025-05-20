@@ -1,0 +1,43 @@
+{% stylesheet %}
+  .layout-grid--gap {
+    --_color-primary: var(--color-primary, black);
+    --_color-secondary: var(--color-secondary, white);
+
+    --_gap--xs: var(--layout-grid-gap--xs, var(--layout-grid-gap, 0));
+    --_gap--sm: var(--layout-grid-gap--sm, var(--_gap--xs));
+    --_gap--md: var(--layout-grid-gap--md, var(--_gap--sm));
+    --_gap--lg: var(--layout-grid-gap--lg, var(--_gap--md));
+    --_gap--xl: var(--layout-grid-gap--xl, var(--_gap--lg));
+    --_gap: var(--_gap--xs);
+
+    grid-gap: var(--_gap);
+    gap: var(--_gap);
+    background-color: transparent;
+  }
+  {% endstylesheet %}
+
+{% style %}
+  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+    .layout-grid--gap {
+      --_gap: var(--_gap--sm);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'md' %}) {
+    .layout-grid--gap {
+      --_gap: var(--_gap--md);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'lg' %}) {
+    .layout-grid--gap {
+      --_gap: var(--_gap--lg);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'xl' %}) {
+    .layout-grid--gap {
+      --_gap: var(--_gap--xl);
+    }
+  }
+{% endstyle %}

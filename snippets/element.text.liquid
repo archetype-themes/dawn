@@ -1,0 +1,196 @@
+{% doc %}
+  Text component
+
+  @param {string} as - HTML element to use (default: 'span')
+  @param {string} classlist - Additional classes to add
+  @param {string} id - Element ID attribute
+  @param {string} style - Inline styles to apply
+  @param {string} locale - Will use the contents of a locale file to determine the correct text content. Will use text value if locale is not found
+  @param {boolean} visually_hidden - Whether to use visually hidden text (default: false)
+
+  @param {string} text - Text content for the element
+  @param {string} variant - Variant to use (default: 'body-md'), options: 'rte', 'body[-lg,-md,-sm,-xs]', 'heading[-2xl,-xl,-lg,-md,-sm,-xs]'
+  @param {string} size - Size to use, overrides size passed in variant (default: ''), options: '2xl', 'xl', 'lg', 'md', 'sm', 'xs'
+  @param {boolean} break_word - Whether to break words (default: false)
+  @param {boolean} truncate - Whether to truncate the text (default: false)
+  @param {string} text_decoration - Text decoration to use (default: 'none'), options: 'none', 'underline', 'line-through'
+  @param {string} text_transform - Text transform to use (default: 'none'), options: 'none', 'uppercase', 'lowercase', 'capitalize'
+  @param {string} alignment - Alignment to use (default: 'start'), options: 'start', 'center', 'end'
+  @param {boolean} accent - Whether to use accent font (default: false)
+
+  @example
+  {% render 'element.text', text: 'Hello, world!', as: 'p', classlist: 'text-center' %}
+{% enddoc %}
+
+{% liquid
+  assign text = text | default: ''
+  assign as = as | default: 'span'
+  assign classlist = classlist | default: '' | append: ' element-text' | strip
+  assign id = id | default: ''
+  assign variant = variant | default: ''
+  assign size = size | default: ''
+  assign style = style | default: ''
+  assign attributes = attributes | default: ''
+  assign break_word = break_word | default: false, allow_false: true
+  assign truncate = truncate | default: false, allow_false: true
+  assign visually_hidden = visually_hidden | default: false, allow_false: true
+  assign alignment = alignment | default: ''
+  assign text_transform = text_transform | default: 'none'
+  assign text_decoration = text_decoration | default: 'none'
+  assign accent = accent | default: false, allow_false: true
+  if variant != blank
+    assign variant_class = 'element-text--' | append: variant
+    if size != blank
+      assign variant_pieces = variant | split: '-'
+      assign variant_class = variant_pieces[0] | append: '-' | append: size
+    endif
+    assign classlist = classlist | append: ' ' | append: variant_class
+  endif
+
+  if variant == 'rte'
+    assign as = 'element-text-rte'
+  endif
+
+  if accent
+    assign classlist = classlist | append: ' element-text--accent'
+  endif
+
+  if alignment != blank
+    assign classlist = classlist | append: ' element-text--align-' | append: alignment
+  endif
+
+  if break_word
+    assign classlist = classlist | append: ' element-text--break-word'
+  endif
+
+  if truncate
+    assign classlist = classlist | append: ' element-text--truncate'
+  endif
+
+  if visually_hidden
+    assign classlist = classlist | append: ' element-text--visually-hidden'
+  endif
+
+  if text_decoration != 'none'
+    assign classlist = classlist | append: ' element-text--' | append: text_decoration
+  endif
+
+  if text_transform != 'none'
+    assign classlist = classlist | append: ' element-text--' | append: text_transform
+  endif
+%}
+
+{% if variant == 'rte' %}
+  {% render 'element.text--rte' %}
+{% elsif variant contains 'heading' %}
+  {% render 'element.text--heading' %}
+{% elsif variant contains 'body' %}
+  {% render 'element.text--body' %}
+{% endif %}
+
+<{{ as }}
+  {%- if id != blank -%}
+    id="{{ id }}"
+  {%- endif -%}
+
+  class="{{ classlist }}"
+
+  {% if attributes != blank %}
+    {{ attributes }}
+  {% endif %}
+
+  {%- if style != blank -%}
+    style="{{ style }}"
+  {%- endif -%}
+>
+  {% if locale != blank %}
+    {%- render 'utility.translate', key: locale, fallback: text -%}
+  {% else %}
+    {{ text }}
+  {% endif %}
+</{{ as }}>
+
+{% if variant == 'rte' %}
+  <script type="module">
+    import 'element.text.rte'
+  </script>
+{% endif %}
+
+{% stylesheet %}
+  .element-text {
+    /* Accent Font Styles */
+    --_accent-font-family: var(--accent-font-family, 'Times New Roman');
+    --_accent-font-family-fallback: var(--accent-font-family-fallback, 'serif');
+    --_accent-font-weight: var(--accent-font-weight, var(--font-weight-400));
+    --_accent-letter-spacing: var(--accent-letter-spacing, var(--letter-space-md));
+    --_accent-text-transform: var(--accent-text-transform, none);
+
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+
+    &.element-text--accent {
+      font-family: var(--_accent-font-family), var(--_accent-font-family-fallback);
+      font-weight: var(--_accent-font-weight);
+      letter-spacing: var(--_accent-letter-spacing);
+      text-transform: var(--_accent-text-transform);
+    }
+
+    &.element-text--align-start {
+      text-align: start;
+    }
+
+    &.element-text--align-center {
+      text-align: center;
+    }
+
+    &.element-text--align-end {
+      text-align: end;
+    }
+
+    &.element-text--align-justify {
+      text-align: justify;
+    }
+
+    &.element-text--break-word {
+      word-break: break-word;
+    }
+
+    &.element-text--truncate {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &.element-text--visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    &.element-text--line-through {
+      text-decoration: line-through;
+    }
+
+    &.element-text--underline {
+      text-decoration: underline;
+    }
+
+    &.element-text--uppercase {
+      text-transform: uppercase;
+    }
+
+    &.element-text--lowercase {
+      text-transform: lowercase;
+    }
+
+    &.element-text--capitalize {
+      text-transform: capitalize;
+    }
+  }
+
+{% endstylesheet %}

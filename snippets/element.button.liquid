@@ -1,0 +1,230 @@
+{% doc %}
+  Button component
+
+  @param {'button'|'a'} as - HTML element to use (default: 'button' or 'a' if href provided)
+  @param {'button'|'submit'|'reset'} type - Button type attribute
+  @param {string} id - Button ID attribute
+  @param {string} classlist - Additional classes to add
+  @param {string} attributes - Additional HTML attributes
+  @param {string} style - Inline styles to apply
+  @param {url} href - URL for anchor buttons
+
+  @param {string} text - Text content for the button
+  @param {string} icon - Icon name to display
+  @param {'start'|'end'} icon_position - Position of icon relative to text (default: 'end')
+
+  @param {boolean} disabled - Whether button is disabled
+  @param {boolean} inverted - Use inverted color scheme
+  @param {boolean} transparent - Use transparent background
+
+  @example
+  {% render 'element.button', text: 'Click me', href: '/products', icon: 'arrow-right' %}
+{% enddoc %}
+
+{% liquid
+  assign as = as | default: 'button'
+  assign icon = icon | default: ''
+  assign text = text | default: ''
+  assign classlist = classlist | default: '' | append: ' element-button' | strip
+  assign id = id | default: ''
+  assign href = href | default: ''
+  assign type = type | default: ''
+  assign disabled = disabled | default: false
+  assign attributes = attributes | default: ''
+  assign style = style | default: ''
+  assign inverted = inverted | default: false
+  assign transparent = transparent | default: false
+  assign full = full | default: false
+  assign name = name | default: ''
+  assign slot = slot | default: ''
+
+  if href != blank
+    assign as = 'a'
+  endif
+
+  if inverted
+    assign classlist = classlist | append: ' element-button--inverted'
+  endif
+
+  if transparent
+    assign classlist = classlist | append: ' element-button--transparent'
+  endif
+
+  if full
+    assign classlist = classlist | append: ' element-button--full'
+  endif
+
+  if icon_position == 'start'
+    assign style = '--button-flex-direction: row-reverse; ' | append: style
+  endif
+%}
+
+{% if slot == blank %}
+  {% capture slot %}
+    {%- if text != blank -%}
+      {%- render 'element.text', text: text, variant: 'body-md' -%}
+    {%- endif -%}
+
+    {%- if icon != blank -%}
+      {%- render 'element.icon', name: icon -%}
+    {%- endif -%}
+  {% endcapture %}
+{% endif %}
+
+<{{ as }}
+  {% if id != blank %}
+    id="{{ id }}"
+  {% endif %}
+
+  class="{{ classlist }}"
+
+  {% if type != blank %}
+    type="{{ type }}"
+  {% endif %}
+
+  {% if href != blank %}
+    href="{{ href }}"
+  {% endif %}
+
+  {% if disabled %}
+    disabled
+  {% endif %}
+
+  {% if name != blank %}
+    name="{{ name }}"
+  {% endif %}
+
+  {% if attributes != blank %}
+    {{ attributes }}
+  {% endif %}
+
+  {%- if style != blank -%}
+    style="{{ style }}"
+  {%- endif -%}
+>
+  {{ slot }}
+</{{ as }}>
+
+{% stylesheet %}
+  .element-button {
+    /* Layout & Typography */
+    --_display: var(--button-display, inline-flex);
+    --_py: var(--button-py, var(--size-3));
+    --_px: var(--button-px, var(--size-5));
+    --_height: var(--button-height, auto);
+    --_width: var(--button-width, fit-content);
+    --_radius: var(--button-radius, var(--radius-xs));
+    --_font-family: var(--button-font-family, var(--body-font-family), var(--body-font-family-fallback));
+    --_font-size: var(--button-font-size, var(--body-md-font-size));
+    --_letter-spacing: var(--button-letter-spacing, var(--body-letter-spacing));
+    --_line-height: var(--button-line-height, var(--body-line-height));
+    --_border-width: var(--button-border-width, var(--size-0-25));
+    --_icon-size: var(--button-icon-size, var(--body-md-font-size));
+    --_flex-direction: var(--button-flex-direction, row);
+
+    /* Colors */
+    --_color-primary: var(--color-primary);
+    --_color-secondary: var(--color-secondary);
+    --_color-focus: var(--color-focus);
+    --_color-background: color-mix(in srgb, var(--_color-secondary) var(--_shade-background), var(--_color-primary));
+    --_color-text: color-mix(in srgb, var(--_color-primary) var(--_shade-text), var(--_color-secondary));
+    --_shade-active: var(--button-color-active-shade, 16%);
+    --_shade-hover: var(--button-color-hover-shade, 8%);
+    --_shade-background: var(--shade-background, 0%);
+    --_shade-text: var(--shade-text, 0%);
+    --_shade-border: var(--button-border-shade, 20%);
+    --_shade-border-hover: var(--button-border-shade-hover, 30%);
+    --_shade-disabled-border: var(--button-shade-disabled-border, 12%);
+    --_shade-disabled-background: var(--button-shade-disabled-background, 12%);
+    --_shade-disabled-text: var(--button-shade-disabled-text, 70%);
+    --_drop-shadow: var(--button-drop-shadow, var(--shadow-none));
+    --_inset-box-shadow: var(
+      --button-inset-box-shadow,
+      inset 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-secondary) var(--_shade-border), transparent)
+    );
+
+    display: var(--_display);
+    width: var(--_width);
+    height: var(--_height);
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    flex-direction: var(--_flex-direction);
+    gap: var(--size-2);
+    padding-inline: var(--_px);
+    padding-block: var(--_py);
+    border-radius: var(--_radius);
+    font-family: var(--_font-family);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--_line-height);
+    background-color: var(--_color-background);
+    color: var(--_color-text);
+    box-shadow: var(--_inset-box-shadow), var(--_drop-shadow);
+    outline: none;
+    border: none;
+
+    & svg {
+      --icon-size: var(--_icon-size);
+    }
+
+    &:has(> svg:only-child) {
+      --_px: var(--_py);
+      --_display: flex;
+    }
+
+    &:hover {
+      --_shade-border: var(--_shade-border-hover);
+      --_shade-background: var(--_shade-hover);
+    }
+
+    &:focus {
+      --_border-width: var(--size-0-5);
+      --_inset-box-shadow: 0 0 0 var(--_border-width) var(--_color-focus);
+    }
+
+    &:active,
+    input[type='radio']:checked + & {
+      --_border-width: 0;
+      --_shade-background: var(--_shade-active);
+    }
+
+    &:disabled,
+    input[type='radio']:disabled + & {
+      --_shade-border: 0%;
+      --_shade-background: var(--_shade-disabled-background);
+      --_shade-text: var(--_shade-disabled-text);
+    }
+
+    &.element-button--inverted {
+      --_color-primary: var(--button-color-secondary, var(--color-secondary));
+      --_color-secondary: var(--button-color-primary, var(--color-primary));
+    }
+
+    &.element-button--full {
+      --_width: 100%;
+    }
+
+    &.element-button--inline {
+      --_display: inline-flex;
+    }
+
+    &.element-button--transparent {
+      --_color-primary: transparent;
+
+      &:disabled {
+        --_shade-border: var(--_shade-disabled-border);
+        --_shade-background: 0%;
+      }
+
+      &:disabled:active {
+        --_border-width: var(--button-border-width, var(--size-0-25));
+        --_shade-border: var(--_shade-disabled-border);
+      }
+    }
+
+    &:is(.shopify-payment-button__button--unbranded):hover:not([disabled]) {
+      background-color: var(--_color-background);
+    }
+  }
+{% endstylesheet %}

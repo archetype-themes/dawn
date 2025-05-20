@@ -1,0 +1,140 @@
+{% doc %}
+  Layout section component that wraps content in a section with configurable styling.
+
+  @param {string} slot - The content to be rendered inside the section
+  @param {string} style - Custom styles to be applied to the section
+  @param {string} classlist - Additional classes to add to the section
+  @param {string} color_scheme - Color scheme to apply to the section
+  @param {boolean} divider - Whether to show a divider above the section
+  @param {boolean} full_width - Whether the section should be full width
+  @param {string} padding - Controls section padding, options: 'top', 'bottom', 'both', 'none'
+  @param {string} hydration - Hydration strategy for the section
+
+  @example
+  {% render 'layout.section',
+    slot: section.settings.content,
+    style: custom_style,
+    classlist: 'my-custom-class',
+    color_scheme: section.settings.color_scheme,
+    full_width: false,
+    padding: 'none'
+  %}
+{% enddoc %}
+
+{%- render 'utility.stylesheet', name: 'layout.section.css' -%}
+
+{%- liquid
+  assign slot = slot | default: ''
+  assign style = style | default: ''
+  assign classlist = classlist | default: ''
+  assign color_scheme = color_scheme | default: section.settings.color_scheme | default: 'none'
+  assign full_width = full_width | default: section.settings.full_width, allow_false: true | default: false, allow_false: true
+  assign padding = padding | default: section.settings.padding | default: 'both'
+
+  if padding == 'top' or padding == 'both'
+    assign classlist = classlist | append: ' layout-section--padding-top' | strip
+  endif
+
+  if padding == 'bottom' or padding == 'both'
+    assign classlist = classlist | append: ' layout-section--padding-bottom' | strip
+  endif
+
+  if full_width
+    assign classlist = classlist | append: ' layout-section--full-width' | strip
+  endif
+
+  if color_scheme != 'none'
+    assign classlist = classlist | append: ' color-scheme-' | append: color_scheme | strip
+  endif
+-%}
+
+<div class="layout-section {{ classlist }}" style="{{ style }}">
+  {% render 'utility.color-scheme-texture', color_scheme: color_scheme %}
+
+  <div class="layout-section__content">
+    {{ slot }}
+  </div>
+</div>
+
+{% render 'style.primitive-tokens' %}
+{% stylesheet %}
+  .layout-section {
+    --_max-inline-size: var(--layout-section-max-inline-size, var(--page-width, 1200px));
+
+    --_px--xs: var(--layout-section-px--xs, var(--layout-section-px, var(--size-4)));
+    --_px--sm: var(--layout-section-px--sm, var(--_px--xs));
+    --_px--md: var(--layout-section-px--md, var(--_px--sm));
+    --_px--lg: var(--layout-section-px--lg, var(--_px--md));
+    --_px--xl: var(--layout-section-px--xl, var(--_px--lg));
+    --_px: var(--_px--xs);
+
+    --_py--xs: var(--layout-section-py--xs, var(--layout-section-py, var(--size-8)));
+    --_py--sm: var(--layout-section-py--sm, var(--_py--xs));
+    --_py--md: var(--layout-section-py--md, var(--_py--sm));
+    --_py--lg: var(--layout-section-py--lg, var(--_py--md));
+    --_py--xl: var(--layout-section-py--xl, var(--_py--lg));
+    --_py: var(--_py--xs);
+
+    --_color-primary: var(--color-primary,);
+    --_color-secondary: var(--color-secondary);
+
+    display: flex;
+    width: 100vw;
+    position: relative;
+    justify-content: center;
+    background-color: var(--_color-secondary);
+    color: var(--_color-primary);
+    overflow: hidden;
+    padding-inline: var(--_px);
+
+    &>.layout-section__content {
+      display: block;
+      max-inline-size: var(--_max-inline-size);
+      z-index: 1;
+      width: 100%; 
+      flex-grow: 1;
+    }
+
+    &.layout-section--full-width>.layout-section__content {
+      max-inline-size: 100%;
+    }
+
+    &.layout-section--padding-top {
+      padding-block-start: var(--_py);
+    }
+
+    &.layout-section--padding-bottom {
+      padding-block-end: var(--_py);
+    }
+  }
+{% endstylesheet %}
+
+{% style %}
+  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+    .layout-section {
+      --_px: var(--_px--sm);
+      --_py: var(--_py--sm);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'md' %}) {
+    .layout-section {
+      --_px: var(--_px--md);
+      --_py: var(--_py--md);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'lg' %}) {
+    .layout-section {
+      --_px: var(--_px--lg);
+      --_py: var(--_py--lg);
+    }
+  }
+
+  @media ({% render 'utility.breakpoint', size: 'xl' %}) {
+    .layout-section {
+      --_px: var(--_px--xl);
+      --_py: var(--_py--xl);
+    }
+  }
+{% endstyle %}

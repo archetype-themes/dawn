@@ -1,0 +1,126 @@
+{% stylesheet %}
+  .element-text.element-text--rte {
+    /* Body Font Stack */
+    --_body-font-family: var(--body-font-family, 'Arial');
+    --_body-font-family-fallback: var(--body-font-family-fallback, 'sans-serif');
+    --_body-font-weight: var(--body-font-weight, var(--font-weight-400));
+    --_body-letter-spacing: var(--body-letter-spacing, var(--letter-space-md));
+    --_body-text-transform: var(--body-text-transform, none);
+    --_body-line-height: var(--body-line-height, var(--line-height-md));
+    --_body-font-size: var(--body-font-size, var(--body-md-font-size, var(--text-size-4)));
+
+    /* Heading Font Stack */
+    --_heading-font-family: var(--heading-font-family, 'Arial');
+    --_heading-font-family-fallback: var(--heading-font-family-fallback, 'sans-serif');
+    --_heading-font-weight: var(--heading-font-weight, var(--font-weight-700));
+    --_heading-letter-spacing: var(--heading-letter-spacing, var(--letter-space-md));
+    --_heading-text-transform: var(--heading-text-transform, none);
+
+    /* Heading Font Sizes */
+    --_h1-font-size: var(--h1-font-size, var(--heading-xl-font-size, var(--text-size-8)));
+    --_h1-line-height: var(--h1-line-height, var(--heading-xl-line-height, var(--line-height-md)));
+    --_h2-font-size: var(--h2-font-size, var(--heading-lg-font-size, var(--text-size-6)));
+    --_h2-line-height: var(--h2-line-height, var(--heading-lg-line-height, var(--line-height-md)));
+    --_h3-font-size: var(--h3-font-size, var(--heading-md-font-size, var(--text-size-5)));
+    --_h3-line-height: var(--h3-line-height, var(--heading-md-line-height, var(--line-height-md)));
+    --_h4-font-size: var(--h4-font-size, var(--heading-sm-font-size, var(--text-size-4-5)));
+    --_h4-line-height: var(--h4-line-height, var(--heading-sm-line-height, var(--line-height-md)));
+    --_h5-font-size: var(--h5-font-size, var(--heading-xs-font-size, var(--text-size-4)));
+    --_h5-line-height: var(--h5-line-height, var(--heading-xs-line-height, var(--line-height-md)));
+    --_h6-font-size: var(--h6-font-size, var(--heading-xs-font-size, var(--text-size-4)));
+    --_h6-line-height: var(--h6-line-height, var(--heading-xs-line-height, var(--line-height-md)));
+
+    font-size: var(--_body-font-size);
+    font-family: var(--_body-font-family), var(--_body-font-family-fallback);
+    font-weight: var(--_body-font-weight);
+    letter-spacing: var(--_body-letter-spacing);
+    text-transform: var(--_body-text-transform);
+    line-height: var(--_body-line-height);
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: var(--_heading-font-family), var(--_heading-font-family-fallback);
+      font-weight: var(--_heading-font-weight);
+      letter-spacing: var(--_heading-letter-spacing);
+      text-transform: var(--_heading-text-transform);
+      margin: 0 0 var(--size-4);
+
+      @media only screen and (min-width: 769px) {
+        margin: 0 0 var(--size-5);
+      }
+    }
+
+    h6 {
+      font-size: var(--_h6-font-size);
+      line-height: var(--_h6-line-height);
+    }
+
+    h5 {
+      font-size: var(--_h5-font-size);
+      line-height: var(--_h5-line-height);
+    }
+
+    h4 {
+      font-size: var(--_h4-font-size);
+      line-height: var(--_h4-line-height);
+    }
+
+    h3 {
+      font-size: var(--_h3-font-size);
+      line-height: var(--_h3-line-height);
+    }
+
+    h2 {
+      font-size: var(--_h2-font-size);
+      line-height: var(--_h2-line-height);
+    }
+
+    h1 {
+      font-size: var(--_h1-font-size);
+      line-height: var(--_h1-line-height);
+    }
+
+    p {
+      margin-bottom: var(--size-8);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    & table {
+      @media only screen and (max-width: 768px) {
+        & td,
+        & th {
+          padding: 6px 8px;
+        }
+      }
+    }
+
+    .table-wrapper {
+      max-width: 100%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .video-wrapper {
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      padding-bottom: 56.25%;
+
+      & iframe,
+      & video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+{% endstylesheet %}

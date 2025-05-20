@@ -1,0 +1,24 @@
+{% liquid
+  assign size_xs = 0
+  assign size_sm = 576
+  assign size_md = 750
+  assign size_lg = 992
+  assign size_xl = 1200
+
+  assign output = ''
+
+  case size
+    when 'xs'
+      assign output = 'min-width: ' | append: size_xs | append: 'px'
+    when 'sm'
+      assign output = 'min-width: ' | append: size_sm | append: 'px'
+    when 'md'
+      assign output = 'min-width: ' | append: size_md | append: 'px'
+    when 'lg'
+      assign output = 'min-width: ' | append: size_lg | append: 'px'
+    when 'xl'
+      assign output = 'min-width: ' | append: size_xl | append: 'px'
+  endcase
+
+  echo output
+%}

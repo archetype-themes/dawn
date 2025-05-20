@@ -1,0 +1,59 @@
+{% stylesheet %}
+  .element-text:where([class*="element-text--heading"]) {
+    /* Heading Font Styles */
+    --_heading-font-family: var(--heading-font-family, 'Arial');
+    --_heading-font-family-fallback: var(--heading-font-family-fallback, 'sans-serif');
+    --_heading-font-weight: var(--heading-font-weight, var(--font-weight-700));
+    --_heading-letter-spacing: var(--heading-letter-spacing, var(--letter-space-md));
+    --_heading-text-transform: var(--heading-text-transform, none);
+
+    /* Heading Font Sizes */
+    --_heading-2xl-font-size: var(--heading-2xl-font-size, var(--text-size-12));
+    --_heading-2xl-line-height: var(--heading-2xl-line-height, var(--line-height-md));
+    --_heading-xl-font-size: var(--heading-xl-font-size, var(--text-size-8));
+    --_heading-xl-line-height: var(--heading-xl-line-height, var(--line-height-md));
+    --_heading-lg-font-size: var(--heading-lg-font-size, var(--text-size-6));
+    --_heading-lg-line-height: var(--heading-lg-line-height, var(--line-height-md));
+    --_heading-md-font-size: var(--heading-md-font-size, var(--text-size-5));
+    --_heading-md-line-height: var(--heading-md-line-height, var(--line-height-md));
+    --_heading-sm-font-size: var(--heading-sm-font-size, var(--text-size-4-5));
+    --_heading-sm-line-height: var(--heading-sm-line-height, var(--line-height-md));
+    --_heading-xs-font-size: var(--heading-xs-font-size, var(--text-size-4));
+    --_heading-xs-line-height: var(--heading-xs-line-height, var(--line-height-md));
+
+    font-family:var(--_heading-font-family), var(--_heading-font-family-fallback);
+    font-weight: var(--_heading-font-weight);
+    letter-spacing: var(--_heading-letter-spacing);
+    text-transform: var(--_heading-text-transform);
+  
+    &:where(.element-text--heading-xs) {
+      font-size: var(--_heading-xs-font-size);
+      line-height: var(--_heading-xs-line-height);
+    }
+
+    &:where(.element-text--heading-sm) {
+      font-size: var(--_heading-sm-font-size);
+      line-height: var(--_heading-sm-line-height);
+    }
+
+    &:where(.element-text--heading-md) {
+      font-size: var(--_heading-md-font-size);
+      line-height: var(--_heading-md-line-height);
+    }
+
+    &:where(.element-text--heading-lg) {
+      font-size: var(--_heading-lg-font-size);
+      line-height: var(--_heading-lg-line-height);
+    }
+
+    &:where(.element-text--heading-xl) {
+      font-size: var(--_heading-xl-font-size);
+      line-height: var(--_heading-xl-line-height);
+    }
+
+    &:where(.element-text--heading-2xl) {
+      font-size: var(--_heading-2xl-font-size);
+      line-height: var(--_heading-2xl-line-height);
+    }
+  }
+{% endstylesheet %}

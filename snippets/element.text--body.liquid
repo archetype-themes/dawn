@@ -1,0 +1,46 @@
+{% stylesheet %}
+  .element-text:where([class*="element-text--body"]) {
+    /* Body Font Styles */
+    --_body-font-family: var(--body-font-family, 'Arial');
+    --_body-font-family-fallback: var(--body-font-family-fallback, 'sans-serif');
+    --_body-font-weight: var(--body-font-weight, var(--font-weight-400));
+    --_body-letter-spacing: var(--body-letter-spacing, var(--letter-space-md));
+    --_body-text-transform: var(--body-text-transform, none);
+    --_body-line-height: var(--body-line-height, var(--line-height-md));
+
+    /* Body Font Sizes */
+    --_body-xs-font-size: var(--body-xs-font-size, var(--text-size-3));
+    --_body-xs-line-height: var(--body-xs-line-height, var(--_body-line-height:));
+    --_body-sm-font-size: var(--body-sm-font-size, var(--text-size-3-5));
+    --_body-sm-line-height: var(--body-sm-line-height, var(--_body-line-height));
+    --_body-md-font-size: var(--body-md-font-size, var(--text-size-4));
+    --_body-md-line-height: var(--body-md-line-height, var(--_body-line-height));
+    --_body-lg-font-size: var(--body-lg-font-size, var(--text-size-4-5));
+    --_body-lg-line-height: var(--body-lg-line-height, var(--_body-line-height));
+
+    font-family: var(--_body-font-family), var(--_body-font-family-fallback);
+    font-weight: var(--_body-font-weight);
+    letter-spacing: var(--_body-letter-spacing);
+    text-transform: var(--_body-text-transform);
+
+    &:where(.element-text--body-xs) {
+      font-size: var(--_body-xs-font-size); 
+      line-height: var(--_body-xs-line-height);
+    }
+
+    &:where(.element-text--body-sm) {
+      font-size: var(--_body-sm-font-size);
+      line-height: var(--_body-sm-line-height);
+    }
+
+    &:where(.element-text--body-md) {
+      font-size: var(--_body-md-font-size);
+      line-height: var(--_body-md-line-height);
+    } 
+
+    &:where(.element-text--body-lg) {
+      font-size: var(--_body-lg-font-size);
+      line-height: var(--_body-lg-line-height);
+    }
+  }
+{% endstylesheet %}

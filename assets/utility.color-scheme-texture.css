@@ -1,0 +1,118 @@
+.scheme-image,
+.scheme-darken,
+.scheme-squiggle,
+.scheme-swirl,
+.scheme-dots,
+.scheme-notebook,
+.scheme-wave,
+.scheme-minimal-wave,
+.scheme-plants,
+.scheme-cold-blur,
+.scheme-warm-blur,
+.scheme-custom-texture-1,
+.scheme-custom-texture-2,
+.scheme-custom-texture-3 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+[data-animate].scheme-image {
+  object-fit: cover;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 1;
+
+  /*Specific styles on some textures*/
+
+  &[data-texture='space.jpg'] {
+    mix-blend-mode: screen;
+  }
+}
+
+[data-animate].scheme-texture--linen,
+[data-animate].scheme-texture--sand,
+[data-animate].scheme-texture--stone,
+[data-animate].scheme-texture--wildflower {
+  opacity: 0.24;
+}
+
+/*Darken is CSS, not image*/
+.scheme-darken {
+  --z-index-overlay: 1;
+  z-index: 1;
+  pointer-events: none;
+
+  &:after {
+    background-color: rgba(0, 0, 0, 0.027);
+    pointer-events: none;
+  }
+}
+
+/*
+  SVG images as backgrounds
+    - larger images are cached external assets that are only loaded when used
+ */
+.scheme-swirl {
+  background-image: url(swirl.svg);
+  opacity: 0.12;
+}
+
+.scheme-squiggle {
+  background: url("data:image/svg+xml,%3Csvg width='150' height='75' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.17'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.scheme-dots {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.15) 0.5px, transparent 2px);
+  background-size: 16px 16px;
+}
+
+.scheme-notebook {
+  background-image: url(notebook.svg);
+  opacity: 0.5;
+}
+
+.scheme-wave {
+  background-image: url(wave.svg);
+  background-size: cover;
+  opacity: 0.5;
+}
+
+.scheme-minimal-wave {
+  background-image: url(minimal-wave.svg);
+  opacity: 0.5;
+  background-size: cover;
+}
+
+.scheme-plants {
+  background-image: url(plants.svg);
+  background-size: cover;
+}
+
+.scheme-cold-blur {
+  background-image: url(cold-blur.svg);
+  background-size: cover;
+}
+
+.scheme-warm-blur {
+  background-image: url(warm-blur.svg);
+  background-size: cover;
+}
+
+.scheme-custom-texture-1 {
+  background-image: url(custom-texture-1.svg);
+  background-size: cover;
+}
+
+.scheme-custom-texture-2 {
+  background-image: url(custom-texture-2.svg);
+  background-size: cover;
+}
+
+.scheme-custom-texture-3 {
+  background-image: url(custom-texture-3.svg);
+  background-size: cover;
+}
