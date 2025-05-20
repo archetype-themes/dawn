@@ -53,56 +53,59 @@
 {% endcapture %}
 
 {% capture product_form %}
-    {%- unless product.has_only_default_variant -%}
-      {% for option in product.options_with_values %}
-        <fieldset>
-          {% render 'element.text', as: 'legend', variant: 'body', text: option.name %}
+  {%- unless product.has_only_default_variant -%}
+    {% for option in product.options_with_values %}
+      <fieldset>
+        {% render 'element.text', as: 'legend', variant: 'body', text: option.name %}
 
-          {% capture option_values %}
-            {% for value in option.values %}
-              {% if value.available %}
-                {%- assign disabled = false -%}
+        {% capture option_values %}
+          {% for value in option.values %}
+            {% if value.available %}
+              {%- assign disabled = false -%}
+            {% else %}
+              {%- assign disabled = true -%}
+            {% endif %}
+
+            {%- capture radio_label -%}
+              {% if value.swatch %}
+                {%- render 'element.swatch', element: 'button', swatch: value.swatch, large: true, selected: value.selected -%}
               {% else %}
-                {%- assign disabled = true -%}
+                {%- render 'element.button', as: 'span', text: value, inverted: true, selected: value.selected -%}
               {% endif %}
+            {%- endcapture -%}
 
-              {%- capture radio_label -%}
-                {% if value.swatch %}
-                  {%- render 'element.swatch', element: 'button', swatch: value.swatch, large: true, selected: value.selected -%}
-                {% else %}
-                  {%- render 'element.button', as: 'span',text: value | upcase, inverted: true, selected: value.selected -%}
-                {% endif %}
-              {%- endcapture -%}
+            {%- render 'element.radio',
+              id: value.id,
+              name: option.name,
+              value: value,
+              label: radio_label,
+              checked: value.selected,
+              display_icon: false,
+              disabled: disabled
+            -%}
+          {% endfor %}
+        {% endcapture %}
 
-              {%- render 'element.radio',
-                id: value.id,
-                name: option.name,
-                value: value,
-                label: radio_label,
-                checked: value.selected,
-                display_icon: false,
-                disabled: disabled
-              -%}
-            {% endfor %}
-          {% endcapture %}
+        {% render 'layout.stack', horizontal: true, gap: 'xs', slot: option_values %}
+      </fieldset>
+    {% endfor %}
+  {%- endunless -%}
 
-          {% render 'layout.stack', horizontal: true, gap: 'xs', slot: option_values %}
-        </fieldset>
-      {% endfor %}
-    {%- endunless -%}
-
-    {% render 'element.button', text: 'Add to Cart', type: 'submit', full: true %}
+  {% render 'element.button', text: 'Add to Cart', type: 'submit', full: true %}
 {% endcapture %}
 
 {% capture product_form_stack %}
-  {% render 'layout.stack', direction: 'column', gap: 'md', slot: product_form %} 
+  {% render 'layout.stack', direction: 'column', gap: 'md', slot: product_form %}
 {% endcapture %}
 
 {% capture product_details %}
   {% render 'element.text', as: 'h1', variant: 'heading-xl', text: product.title %}
   {% render 'element.price', price: product.price %}
 
-  {% form 'product', product %}{{ product_form_stack }}{% endform %}
+  {% form 'product', product %}
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {{ product_form_stack }}
+  {% endform %}
 
   {% render 'element.text', variant: 'rte', text: product.description %}
 {% endcapture %}
@@ -118,7 +121,7 @@
 
 {% capture grid %}
   {% render 'layout.grid',
-    columns_xs: 1,  
+    columns_xs: 1,
     columns_md: 2,
     slot: grid_content,
     gap: 'md'
