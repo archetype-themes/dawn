@@ -2,25 +2,25 @@
   Grid layout component that creates a responsive grid with customizable columns, gaps, and alignment.
 
   @param {string} slot - The slot content to wrap
-  @param {string} classlist - Additional classes to add
-  @param {string} style - Inline styles to apply
-  @param {string} variant - The variant of the grid (default: 'gap'), options: 'line', 'line-internal', 'gap'
-  @param {string|color_scheme} color_scheme - The color scheme of the grid (default: 'none'), options: 'none', '1', '2', '3' or color scheme object
-  @param {string} align - The alignment of the grid (default: 'center'), options: 'center', 'start', 'end'
-  @param {number} columns - The number of columns in the grid (same for all screens)
-  @param {number} columns_xs - The number of columns in the grid for xs screens
-  @param {number} columns_sm - The number of columns in the grid for sm screens
-  @param {number} columns_md - The number of columns in the grid for md screens
-  @param {number} columns_lg - The number of columns in the grid for lg screens
-  @param {number} columns_xl - The number of columns in the grid for xl screens
-  @param {number} gap - The size of the gap between the grid items (same for all screens)
-  @param {number} gap_xs - The size of the gap between the grid items for xs screens
-  @param {number} gap_sm - The size of the gap between the grid items for sm screens
-  @param {number} gap_md - The size of the gap between the grid items for md screens
-  @param {number} gap_lg - The size of the gap between the grid items for lg screens
-  @param {number} gap_xl - The size of the gap between the grid items for xl screens
-  @param {string} lines - The size of lines in the grid (default: 'sm'), options: 'none', 'xs', 'sm', 'md', 'lg', 'xl'
-  @param {number} item_count - The number of items in the grid. If provided, the grid will automatically add filler columns to the end of the grid to fill the remaining space when using the 'line' or 'line-internal' variant.
+  @param {string} [classlist] - Additional classes to add
+  @param {string} [style] - Inline styles to apply
+  @param {string} [variant] - The variant of the grid (default: 'gap'), options: 'line', 'line-internal', 'gap'
+  @param {string|color_scheme} [color_scheme] - The color scheme of the grid (default: 'none'), options: 'none', '1', '2', '3' or color scheme object
+  @param {string} [align] - The alignment of the grid (default: 'center'), options: 'center', 'start', 'end'
+  @param {number} [columns] - The number of columns in the grid (same for all screens)
+  @param {number} [columns_xs] - The number of columns in the grid for xs screens
+  @param {number} [columns_sm] - The number of columns in the grid for sm screens
+  @param {number} [columns_md] - The number of columns in the grid for md screens
+  @param {number} [columns_lg] - The number of columns in the grid for lg screens
+  @param {number} [columns_xl] - The number of columns in the grid for xl screens
+  @param {number} [gap] - The size of the gap between the grid items (same for all screens)
+  @param {number} [gap_xs] - The size of the gap between the grid items for xs screens
+  @param {number} [gap_sm] - The size of the gap between the grid items for sm screens
+  @param {number} [gap_md] - The size of the gap between the grid items for md screens
+  @param {number} [gap_lg] - The size of the gap between the grid items for lg screens
+  @param {number} [gap_xl] - The size of the gap between the grid items for xl screens
+  @param {string} [lines] - The size of lines in the grid (default: 'sm'), options: 'none', 'xs', 'sm', 'md', 'lg', 'xl'
+  @param {number} [item_count] - The number of items in the grid. If provided, the grid will automatically add filler columns to the end of the grid to fill the remaining space when using the 'line' or 'line-internal' variant.
 
   @example
   {% render 'layout.grid', slot: grid_items, columns: 3, gap: 'md', align: 'start' %}
@@ -31,7 +31,7 @@
   assign style = style | default: ''
   assign align = align | default: 'center'
   assign variant = variant | default: 'gap'
-  assign item_count = item_count | default: nil
+  assign item_count = item_count | default: null
   assign color_scheme = color_scheme | default: 'none'
 
   assign columns = columns | default: ''
@@ -87,7 +87,7 @@
     assign style = style | append: '--layout-grid-template-columns: ' | append: columns | append: ';'
 
     # Add filler columns if the grid is a line grid and there are more items than columns
-    if item_count != nil and variant contains 'line' and columns > 1
+    if item_count != null and variant contains 'line' and columns > 1
       assign leftover = item_count | modulo: columns
       if leftover > 0
         assign filler_columns = columns | minus: leftover
@@ -101,7 +101,7 @@
     assign style = style | append: '--layout-grid-template-columns--xs: ' | append: columns_xs | append: ';'
 
     # Add filler columns if the grid is a line grid and there are more items than columns
-    if item_count != nil and variant contains 'line' and columns_xs > 1
+    if item_count != null and variant contains 'line' and columns_xs > 1
       assign leftover = item_count | modulo: columns_xs
       if leftover > 0
         assign filler_columns = columns_xs | minus: leftover
@@ -115,7 +115,7 @@
     assign style = style | append: '--layout-grid-template-columns--sm: ' | append: columns_sm | append: ';'
 
     # Add filler columns if the grid is a line grid and there are more items than columns
-    if item_count != nil and variant contains 'line' and columns_sm > 1
+    if item_count != null and variant contains 'line' and columns_sm > 1
       assign leftover = item_count | modulo: columns_sm
       if leftover > 0
         assign filler_columns = columns_sm | minus: leftover
@@ -126,10 +126,10 @@
   endif
 
   if columns_md != blank and columns_md != columns
-    assign style = style | append: '--layout-grid-template-columns--md: ' | append: columns_md | append: ';' 
+    assign style = style | append: '--layout-grid-template-columns--md: ' | append: columns_md | append: ';'
 
     # Add filler columns if the grid is a line grid and there are more items than columns
-    if item_count != nil and variant contains 'line' and columns_md > 1
+    if item_count != null and variant contains 'line' and columns_md > 1
       assign leftover = item_count | modulo: columns_md
       if leftover > 0
         assign filler_columns = columns_md | minus: leftover
@@ -143,7 +143,7 @@
     assign style = style | append: '--layout-grid-template-columns--lg: ' | append: columns_lg | append: ';'
 
     # Add filler columns if the grid is a line grid and there are more items than columns
-    if item_count != nil and variant contains 'line' and columns_lg > 1
+    if item_count != null and variant contains 'line' and columns_lg > 1
       assign leftover = item_count | modulo: columns_lg
       if leftover > 0
         assign filler_columns = columns_lg | minus: leftover
@@ -157,7 +157,7 @@
     assign style = style | append: '--layout-grid-template-columns--xl: ' | append: columns_xl | append: ';'
 
     # Add filler columns if the grid is a line grid and there are more items than columns
-    if item_count != nil and variant contains 'line' and columns_xl > 1
+    if item_count != null and variant contains 'line' and columns_xl > 1
       assign leftover = item_count | modulo: columns_xl
       if leftover > 0
         assign filler_columns = columns_xl | minus: leftover
@@ -171,7 +171,7 @@
     assign style = style | append: '--layout-grid-align-items: ' | append: align | append: ';'
   endif
 
-  if color_scheme != 'none' 
+  if color_scheme != 'none'
     assign classlist = classlist | append: ' color-scheme-' | append: color_scheme | strip
   endif
 %}
@@ -228,8 +228,3 @@
     }
   }
 {% endstyle %}
-
-
-
-
-

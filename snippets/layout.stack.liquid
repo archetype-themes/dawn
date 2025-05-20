@@ -2,16 +2,16 @@
   Stack layout component that wraps content and stacks that content vertically or horizontally.
 
   @param {string} slot - The slot content to wrap
-  @param {string} as - The HTML element to use for the stack (default: 'div')
-  @param {string} id - ID attribute
-  @param {string} classlist - Additional classes to add
-  @param {boolean} horizontal - Whether the stack should be horizontal (default: false)
-  @param {boolean} reverse - Whether the stack should be reversed (default: false)
-  @param {string} wrap - Controls flex wrapping (default: 'wrap'), options: 'wrap', 'nowrap', 'wrap-reverse'
-  @param {string} justify - Controls how items are positioned along the main axis, options: 'start', 'center', 'end', 'space-around', 'space-between', 'space-evenly'
-  @param {string} align - Controls how items are aligned along the cross axis, options: 'start', 'center', 'end', 'stretch', 'baseline'
-  @param {string} attributes - Additional attributes
-  @param {string} style - Inline styles to apply
+  @param {string} [as] - The HTML element to use for the stack (default: 'div')
+  @param {string} [id] - ID attribute
+  @param {string} [classlist] - Additional classes to add
+  @param {boolean} [horizontal] - Whether the stack should be horizontal (default: false)
+  @param {boolean} [reverse] - Whether the stack should be reversed (default: false)
+  @param {string} [wrap] - Controls flex wrapping (default: 'wrap'), options: 'wrap', 'nowrap', 'wrap-reverse'
+  @param {string} [justify] - Controls how items are positioned along the main axis, options: 'start', 'center', 'end', 'space-around', 'space-between', 'space-evenly'
+  @param {string} [align] - Controls how items are aligned along the cross axis, options: 'start', 'center', 'end', 'stretch', 'baseline'
+  @param {string} [attributes] - Additional attributes
+  @param {string} [style] - Inline styles to apply
 
   @example
   {% render 'layout.stack', slot: content, horizontal: true, reverse: true %}

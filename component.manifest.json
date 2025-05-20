@@ -1,7 +1,7 @@
 {
   "collections": {
     "@archetype-themes/components": {
-      "commit": "c63edce561151f4d48ce4adaaf1cd40f05569a32",
+      "commit": "c1de96b36d33ccea2e32599e7a52fca7d77a9c3d",
       "version": "3.1.3"
     }
   },
@@ -323,6 +323,7 @@
       "element.text.liquid": "@archetype-themes/components",
       "facets.liquid": "@theme",
       "gift-card-recipient-form.liquid": "@theme",
+      "head.import-map.liquid": "@theme",
       "header-drawer.liquid": "@theme",
       "header-dropdown-menu.liquid": "@theme",
       "header-mega-menu.liquid": "@theme",
@@ -350,7 +351,6 @@
       "quantity-input.liquid": "@theme",
       "quick-order-list-row.liquid": "@theme",
       "quick-order-list.liquid": "@theme",
-      "quick-order-product-row.liquid": "@theme",
       "share-button.liquid": "@theme",
       "social-icons.liquid": "@theme",
       "style.primitive-tokens.liquid": "@archetype-themes/components",

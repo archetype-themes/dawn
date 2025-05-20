@@ -1,12 +1,12 @@
 {% doc %}
   Swatch component
 
-  @param {boolean} large - Whether the swatch is large
-  @param {boolean} selected - Whether the swatch is selected
-  @param {string} classlist - Class list
-  @param {string} style - Style attribute
-  @param {string} href - Link (only works if element is 'a')
-  @param {boolean} disabled - Whether the swatch is disabled
+  @param {boolean} [large] - Whether the swatch is large
+  @param {boolean} [selected] - Whether the swatch is selected
+  @param {string} [classlist] - Class list
+  @param {string} [style] - Style attribute
+  @param {string} [href] - Link (only works if element is 'a')
+  @param {boolean} [disabled] - Whether the swatch is disabled
 
   @example
   {% render 'element.swatch', color: '#000000', selected: true %}
@@ -38,7 +38,7 @@
     assign classlist = classlist | append: ' swatch--disabled'
   endif
 
-  if swatch != nil
+  if swatch != null
     assign swatch_img = swatch.image | image_url: width: 50
     capture swatch_style
       echo '--swatch-color-background: ' | append: swatch.color | append: ';'
@@ -84,15 +84,11 @@
     --_shade-outer-hover: var(--swatch-shade-outer-hover, 20%);
     --_shade-outer-selected: var(--swatch-shade-outer-selected, 100%);
 
-    background:
-      var(--_color-disabled),
-      var(--_color-background-image) center / cover,
-      var(--_color-background);
+    background: var(--_color-disabled), var(--_color-background-image) center / cover, var(--_color-background);
     width: var(--_size);
     height: var(--_size);
     border-radius: var(--_radius);
-    box-shadow:
-      0 0 0 2px color-mix(in srgb, var(--_color-secondary) 100%, transparent),
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--_color-secondary) 100%, transparent),
       0 0 0 var(--_outline-width) color-mix(in srgb, var(--_color-primary) var(--_shade-outer), transparent),
       inset 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-border) var(--_shade-inset), transparent);
     outline: 0;
@@ -125,12 +121,11 @@
 
   .swatch--disabled,
   input[type='radio']:disabled + & {
-    --_color-disabled:
-      linear-gradient(
-        to bottom right,
-        transparent calc(50% - var(--_line-disabled-width)),
-        var(--color-secondary) calc(50% - var(--_line-disabled-width)) calc(50% + var(--_line-disabled-width)),
-        transparent calc(50% + var(--_line-disabled-width))
-      );
+    --_color-disabled: linear-gradient(
+      to bottom right,
+      transparent calc(50% - var(--_line-disabled-width)),
+      var(--color-secondary) calc(50% - var(--_line-disabled-width)) calc(50% + var(--_line-disabled-width)),
+      transparent calc(50% + var(--_line-disabled-width))
+    );
   }
 {% endstylesheet %}

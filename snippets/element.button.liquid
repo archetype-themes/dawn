@@ -1,21 +1,19 @@
 {% doc %}
   Button component
 
-  @param {'button'|'a'} as - HTML element to use (default: 'button' or 'a' if href provided)
-  @param {'button'|'submit'|'reset'} type - Button type attribute
-  @param {string} id - Button ID attribute
-  @param {string} classlist - Additional classes to add
-  @param {string} attributes - Additional HTML attributes
-  @param {string} style - Inline styles to apply
-  @param {url} href - URL for anchor buttons
-
-  @param {string} text - Text content for the button
-  @param {string} icon - Icon name to display
-  @param {'start'|'end'} icon_position - Position of icon relative to text (default: 'end')
-
-  @param {boolean} disabled - Whether button is disabled
-  @param {boolean} inverted - Use inverted color scheme
-  @param {boolean} transparent - Use transparent background
+  @param {'button'|'a'} [as] - HTML element to use (default: 'button' or 'a' if href provided)
+  @param {'button'|'submit'|'reset'} [type] - Button type attribute
+  @param {string} [id] - Button ID attribute
+  @param {string} [classlist] - Additional classes to add
+  @param {string} [attributes] - Additional HTML attributes
+  @param {string} [style] - Inline styles to apply
+  @param {url} [href] - URL for anchor buttons
+  @param {string} [text] - Text content for the button
+  @param {string} [icon] - Icon name to display
+  @param {'start'|'end'} [icon_position] - Position of icon relative to text (default: 'end')
+  @param {boolean} [disabled] - Whether button is disabled
+  @param {boolean} [inverted] - Use inverted color scheme
+  @param {boolean} [transparent] - Use transparent background
 
   @example
   {% render 'element.button', text: 'Click me', href: '/products', icon: 'arrow-right' %}

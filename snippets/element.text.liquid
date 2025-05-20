@@ -1,22 +1,21 @@
 {% doc %}
   Text component
 
-  @param {string} as - HTML element to use (default: 'span')
-  @param {string} classlist - Additional classes to add
-  @param {string} id - Element ID attribute
-  @param {string} style - Inline styles to apply
-  @param {string} locale - Will use the contents of a locale file to determine the correct text content. Will use text value if locale is not found
-  @param {boolean} visually_hidden - Whether to use visually hidden text (default: false)
-
   @param {string} text - Text content for the element
-  @param {string} variant - Variant to use (default: 'body-md'), options: 'rte', 'body[-lg,-md,-sm,-xs]', 'heading[-2xl,-xl,-lg,-md,-sm,-xs]'
-  @param {string} size - Size to use, overrides size passed in variant (default: ''), options: '2xl', 'xl', 'lg', 'md', 'sm', 'xs'
-  @param {boolean} break_word - Whether to break words (default: false)
-  @param {boolean} truncate - Whether to truncate the text (default: false)
-  @param {string} text_decoration - Text decoration to use (default: 'none'), options: 'none', 'underline', 'line-through'
-  @param {string} text_transform - Text transform to use (default: 'none'), options: 'none', 'uppercase', 'lowercase', 'capitalize'
-  @param {string} alignment - Alignment to use (default: 'start'), options: 'start', 'center', 'end'
-  @param {boolean} accent - Whether to use accent font (default: false)
+  @param {string} [as] - HTML element to use (default: 'span')
+  @param {string} [classlist] - Additional classes to add
+  @param {string} [id] - Element ID attribute
+  @param {string} [style] - Inline styles to apply
+  @param {string} [locale] - Will use the contents of a locale file to determine the correct text content. Will use text value if locale is not found
+  @param {boolean} [visually_hidden] - Whether to use visually hidden text (default: false)
+  @param {string} [variant] - Variant to use (default: 'body-md'), options: 'rte', 'body[-lg,-md,-sm,-xs]', 'heading[-2xl,-xl,-lg,-md,-sm,-xs]'
+  @param {string} [size] - Size to use, overrides size passed in variant (default: ''), options: '2xl', 'xl', 'lg', 'md', 'sm', 'xs'
+  @param {boolean} [break_word] - Whether to break words (default: false)
+  @param {boolean} [truncate] - Whether to truncate the text (default: false)
+  @param {string} [text_decoration] - Text decoration to use (default: 'none'), options: 'none', 'underline', 'line-through'
+  @param {string} [text_transform] - Text transform to use (default: 'none'), options: 'none', 'uppercase', 'lowercase', 'capitalize'
+  @param {string} [alignment] - Alignment to use (default: 'start'), options: 'start', 'center', 'end'
+  @param {boolean} [accent] - Whether to use accent font (default: false)
 
   @example
   {% render 'element.text', text: 'Hello, world!', as: 'p', classlist: 'text-center' %}
@@ -192,5 +191,4 @@
       text-transform: capitalize;
     }
   }
-
 {% endstylesheet %}
