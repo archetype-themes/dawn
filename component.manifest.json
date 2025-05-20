@@ -1,7 +1,7 @@
 {
   "collections": {
     "@archetype-themes/components": {
-      "commit": "258086c7225ca6d418fd32f5e5f7cf0a9b4f7cb8",
+      "commit": "e925b1e75a06b1ed857405da911d687af09a40d3",
       "version": "3.1.3"
     }
   },
@@ -322,6 +322,7 @@
       "element.text--rte.liquid": "@archetype-themes/components",
       "element.text.liquid": "@archetype-themes/components",
       "facets.liquid": "@theme",
+      "form.product.liquid": "@archetype-themes/components",
       "gift-card-recipient-form.liquid": "@theme",
       "header-drawer.liquid": "@theme",
       "header-dropdown-menu.liquid": "@theme",

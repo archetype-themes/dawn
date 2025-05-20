@@ -1,0 +1,14 @@
+{% doc %}
+  Renders a product form.
+
+  @param {object} product - Product object
+  @param {string} slot - Slot for product form
+
+  @example
+  {% render 'form.product', product: product, slot: product_form_stack %}
+{% enddoc %}
+
+{% form 'product', product %}
+  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+  {{ slot }}
+{% endform %}
