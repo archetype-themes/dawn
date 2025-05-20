@@ -60,28 +60,40 @@
 
         {% capture option_values %}
           {% for value in option.values %}
-            {% if value.available %}
-              {%- assign disabled = false -%}
+            {% unless value.available %}
+              {%- assign classlist = 'disabled' -%}
             {% else %}
-              {%- assign disabled = true -%}
-            {% endif %}
+              {%- assign classlist = '' -%}
+            {% endunless %}
 
-            {%- capture radio_label -%}
+            {%- capture input_id -%}
+              {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+            {%- endcapture -%}
+
+            {% assign input_value = value | escape %}
+
+            {%- capture input_label -%}
               {% if value.swatch %}
-                {%- render 'element.swatch', element: 'button', swatch: value.swatch, large: true, selected: value.selected -%}
+                {%- render 'element.swatch', swatch: value.swatch, large: true, selected: value.selected -%}
               {% else %}
                 {%- render 'element.button', as: 'span', text: value, inverted: true, selected: value.selected -%}
               {% endif %}
             {%- endcapture -%}
 
+            {%- capture input_attributes -%}
+              data-product-url="{{ value.product_url }}"
+              data-option-value-id="{{ value.id }}"
+            {%- endcapture -%}
+
             {%- render 'element.radio',
-              id: value.id,
+              id: input_id,
               name: option.name,
-              value: value,
-              label: radio_label,
+              value: input_value,
+              label: input_label,
               checked: value.selected,
               display_icon: false,
-              disabled: disabled
+              classlist: classlist,
+              attributes: input_attributes
             -%}
           {% endfor %}
         {% endcapture %}
@@ -91,7 +103,11 @@
     {% endfor %}
   {%- endunless -%}
 
-  {% render 'element.button', text: 'Add to Cart', type: 'submit', full: true %}
+  {% if product.selected_or_first_available_variant.available %}
+    {% render 'element.button', text: 'Add to Cart', type: 'submit', full: true %}
+  {% else %}
+    {% render 'element.button', text: 'Sold Out', type: 'submit', full: true, disabled: true %}
+  {% endif %}
 {% endcapture %}
 
 {% capture product_form_stack %}
@@ -123,4 +139,51 @@
   %}
 {% endcapture %}
 
-{% render 'layout.section', slot: grid %}
+<section-main-product data-section-id="{{ section.id }}" data-product-url="{{ product.url }}">
+  {% render 'layout.section', slot: grid %}
+</section-main-product>
+
+{% javascript %}
+  function onVariantChange(event) {
+    const optionValueElement = event.target;
+    const productFormElement = optionValueElement.closest('form');
+    const productElement = optionValueElement.closest('section-main-product');
+    const sectionId = productElement.dataset.sectionId;
+
+    // Combined listings: We use old and new product urls to determine if the product should change
+    const oldProductUrl = productElement.dataset.productUrl;
+    const newProductUrl = optionValueElement.dataset.productUrl;
+
+    // Get the selected option value IDs and format as query param
+    const selectedOptionValues = Array.from(productFormElement.querySelectorAll('fieldset input:checked')).map(
+      ({ dataset }) => dataset.optionValueId
+    );
+    const params = selectedOptionValues.length > 0 ? `&option_values=${selectedOptionValues.join(',')}` : '';
+
+    // Deferred variants: Fetch the option value picker with the new availability state when remaining on the same product
+    // Combined listings: Fetch the product associated with the selected option value and replace the entire product if switching to a sibling product
+    fetch(`${newProductUrl}?section_id=${sectionId}${params}`)
+      .then((response) => response.text())
+      .then((responseText) => {
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
+
+        // Combined listings: If the product changed, replace the old product section with the new product section
+        if (newProductUrl && oldProductUrl !== newProductUrl) {
+          productElement.parentNode.insertBefore(html.querySelector('section-main-product'), productElement);
+          productElement.remove();
+
+          // Focus the input for the last clicked option value
+          document.querySelector(`#${event.target.id}`).focus();
+
+          return;
+        }
+
+        productFormElement.innerHTML = html.querySelector('form').innerHTML;
+        document.querySelector(`#${event.target.id}`).focus();
+
+        // Update any other sections that depend on the option value picker
+      });
+  }
+
+  document.addEventListener('change', onVariantChange);
+{% endjavascript %}
