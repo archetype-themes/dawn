@@ -1,15 +1,17 @@
 {% doc %}
   Radio component
 
-  @param {number} index - The index of the radio field (default: 1)
+  @param {string} [id] - The ID of the radio field
+  @param {number} [index] - The index of the radio field (default: 1)
   @param {string} name - The name of the radio field
-  @param {string} label - The label for the radio field
+  @param {string} [label] - The label for the radio field
   @param {string} value - The value of the radio field
-  @param {string} attributes - Additional attributes for the radio field
-  @param {string} style - Additional styles for the radio field
-  @param {string} classlist - Additional classes for the radio field
-  @param {boolean} checked - Whether the radio field should be checked (default: false)
-  @param {boolean} display_icon - Whether the icon should be displayed (default: true)
+  @param {string} [attributes] - Additional attributes for the radio field
+  @param {string} [style] - Additional styles for the radio field
+  @param {string} [classlist] - Additional classes for the radio field
+  @param {boolean} [disabled] - Whether the radio field should be disabled (default: false)
+  @param {boolean} [checked] - Whether the radio field should be checked (default: false)
+  @param {boolean} [display_icon] - Whether the icon should be displayed (default: true)
 
   @example
   {% render 'element.radio', name: 'size', label: 'Small', value: 'small' %}
@@ -93,7 +95,10 @@
     --_color-active: var(--color-focus);
     --_color-background: var(--_color-secondary);
     --_color-text: var(--_color-primary);
-    --_color-shadow: var(--radio-shadow-color, color-mix(in srgb, var(--_color-primary) var(--_outline-shade), var(--_color-secondary)));
+    --_color-shadow: var(
+      --radio-shadow-color,
+      color-mix(in srgb, var(--_color-primary) var(--_outline-shade), var(--_color-secondary))
+    );
     --_outline-shade: var(--radio-outline-shade, 12%);
     --_shadow-h-offset: var(--radio-shadow-horizontal-offset, 0);
     --_shadow-v-offset: var(--radio-shadow-vertical-offset, 0);
@@ -152,7 +157,8 @@
     width: var(--_size);
     height: var(--_size);
     border-radius: var(--_radius);
-    box-shadow: var(--_shadow-h-offset) var(--_shadow-v-offset) var(--_shadow-blur) var(--_shadow-spread) var(--_color-shadow);
+    box-shadow: var(--_shadow-h-offset) var(--_shadow-v-offset) var(--_shadow-blur) var(--_shadow-spread)
+      var(--_color-shadow);
     background-color: var(--_color-background);
 
     &::before {
