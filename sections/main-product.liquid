@@ -9,6 +9,13 @@
 
     --button-radius: 0;
 
+    --body-font-family: var(--font-body-family);
+    --body-font-family-fallback: 'sans-serif';
+    --body-font-weight: var(--font-body-weight);
+    --body-letter-spacing: 0.06rem;
+    --body-line-height: calc(1 + 0.8 / var(--font-body-scale));
+    --body-font-size: 1.5rem;
+
     --heading-font-family: var(--font-heading-family);
     --heading-font-family-fallback: 'sans-serif';
     --heading-font-weight: var(--font-heading-weight);
@@ -29,6 +36,8 @@
     --heading-xs-font-size: calc(var(--font-heading-scale) * var(--text-size-3));
 
     @media ({% render 'utility.breakpoint', size: 'md' %}) {
+      --body-font-size: 1.6rem;
+
       --heading-2xl-font-size: calc(var(--font-heading-scale) * 5.2rem);
       --heading-xl-font-size: calc(var(--font-heading-scale) * 4rem);
       --heading-lg-font-size: calc(var(--font-heading-scale) * 2.4);
@@ -36,6 +45,16 @@
       --heading-sm-font-size: calc(var(--font-heading-scale) * 1.5);
       --heading-xs-font-size: calc(var(--font-heading-scale) * 1.2);
     }
+  }
+
+  body,
+  .color-scheme-1,
+  .color-scheme-2,
+  .color-scheme-3,
+  .color-scheme-4,
+  .color-scheme-5 {
+    --color-primary: rgba(var(--color-foreground));
+    --color-secondary: rgb(var(--color-background));
   }
 {% endstyle %}
 
