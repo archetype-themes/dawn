@@ -105,6 +105,11 @@
 </{{ as }}>
 
 {% stylesheet %}
+  :root {
+    --button-color-primary: #000;
+    --button-color-secondary: #FFF;
+  }
+
   .element-button {
     /* Layout & Typography */
     --_display: var(--button-display, inline-flex);
@@ -122,9 +127,9 @@
     --_flex-direction: var(--button-flex-direction, row);
 
     /* Colors */
-    --_color-primary: var(--color-primary);
-    --_color-secondary: var(--color-secondary);
-    --_color-focus: var(--color-focus);
+    --_color-primary: var(--button-color-primary, var(--color-primary));
+    --_color-secondary: var(--button-color-secondary, var(--color-secondary));
+    --_color-focus: var(--button-color-focus, var(--color-focus));
     --_color-background: color-mix(in srgb, var(--_color-secondary) var(--_shade-background), var(--_color-primary));
     --_color-text: color-mix(in srgb, var(--_color-primary) var(--_shade-text), var(--_color-secondary));
     --_shade-active: var(--button-color-active-shade, 16%);
@@ -182,17 +187,19 @@
       --_inset-box-shadow: 0 0 0 var(--_border-width) var(--_color-focus);
     }
 
-    &:active,
-    input[type='radio']:checked + & {
-      --_border-width: 0;
-      --_shade-background: var(--_shade-active);
-    }
-
     &:disabled,
-    input[type='radio']:disabled + & {
+    input[type='radio']:disabled + &,
+    .disabled > input[type='radio'] + & {
       --_shade-border: 0%;
       --_shade-background: var(--_shade-disabled-background);
       --_shade-text: var(--_shade-disabled-text);
+    }
+
+    &:active,
+    input[type='radio']:checked + & {
+      /* --_border-width: 0; */
+      --_shade-border: var(--button-border-shade, 20%);
+      --_shade-background: var(--_shade-active);
     }
 
     &.element-button--inverted {

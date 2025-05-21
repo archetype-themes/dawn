@@ -74,6 +74,11 @@
 </label>
 
 {% stylesheet %}
+  :root {
+    --radio-color-primary: #000;
+    --radio-color-secondary: #FFF;
+  }
+
   .radio {
     /* Layout & Typography */
     --_size: var(--radio-size, var(--size-5));
@@ -90,9 +95,9 @@
     --_font-weight: var(--radio-font-weight, normal);
 
     /* Colors */
-    --_color-primary: var(--color-primary);
-    --_color-secondary: var(--color-secondary);
-    --_color-active: var(--color-focus);
+    --_color-primary: var(--radio-color-primary, var(--color-primary));
+    --_color-secondary: var(--radio-color-secondary, var(--color-secondary));
+    --_color-active: var(--radio-color-active, var(--color-focus));
     --_color-background: var(--_color-secondary);
     --_color-text: var(--_color-primary);
     --_color-shadow: var(

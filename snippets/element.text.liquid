@@ -26,7 +26,7 @@
   assign as = as | default: 'span'
   assign classlist = classlist | default: '' | append: ' element-text' | strip
   assign id = id | default: ''
-  assign variant = variant | default: ''
+  assign variant = variant | default: 'body'
   assign size = size | default: ''
   assign style = style | default: ''
   assign attributes = attributes | default: ''
@@ -37,14 +37,14 @@
   assign text_transform = text_transform | default: 'none'
   assign text_decoration = text_decoration | default: 'none'
   assign accent = accent | default: false, allow_false: true
-  if variant != blank
-    assign variant_class = 'element-text--' | append: variant
-    if size != blank
-      assign variant_pieces = variant | split: '-'
-      assign variant_class = variant_pieces[0] | append: '-' | append: size
-    endif
-    assign classlist = classlist | append: ' ' | append: variant_class
+    
+  assign variant_class = 'element-text--' | append: variant
+  
+  if size != blank
+    assign variant_pieces = variant | split: '-'
+    assign variant_class = 'element-text--' | append: variant_pieces[0] | append: '-' | append: size
   endif
+  assign classlist = classlist | append: ' ' | append: variant_class
 
   if variant == 'rte'
     assign as = 'element-text-rte'

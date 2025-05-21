@@ -17,10 +17,10 @@
   assign formatted_price = price | money
   assign superscript_decimals = superscript_decimals | default: settings.superscript_decimals, allow_false: true | default: true, allow_false: true
   assign strikethrough = strikethrough | default: false
-  assign classlist = classlist | default: '' | append: ' price' | strip
+  assign classlist = classlist | default: '' | append: ' element-price' | strip
   assign style = style | default: ''
   assign attributes = attributes | default: ''
-  assign variant = variant | default: ''
+  assign variant = variant | default: 'body-md'
   assign size = size | default: ''
 
   if superscript_decimals
@@ -50,7 +50,7 @@
 -%}
 
 {% stylesheet %}
-  .price {
+  .element-price {
     /* Colors */
     --_color-primary: var(--color-primary, inherit);
 

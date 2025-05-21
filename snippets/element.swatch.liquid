@@ -101,7 +101,18 @@
       --_size: calc(var(--_size-small) * var(--_size-mobile-ratio));
     }
 
-    &:is(:not(span)) {
+    .swatch--disabled,
+    .disabled > input[type='radio'] + &,
+    input[type='radio']:disabled + & {
+      --_color-disabled: linear-gradient(
+        to bottom right,
+        transparent calc(50% - var(--_line-disabled-width)),
+        var(--color-secondary) calc(50% - var(--_line-disabled-width)) calc(50% + var(--_line-disabled-width)),
+        transparent calc(50% + var(--_line-disabled-width))
+      );
+    }
+
+    /* &:is(:not(span)) { */
       &:hover {
         --_shade-outer: var(--_shade-outer-hover);
       }
@@ -111,7 +122,7 @@
       input[type='radio']:checked + & {
         --_shade-outer: var(--_shade-outer-selected);
       }
-    }
+    /* } */
   }
 
   .swatch--large {
@@ -122,13 +133,5 @@
     }
   }
 
-  .swatch--disabled,
-  input[type='radio']:disabled + & {
-    --_color-disabled: linear-gradient(
-      to bottom right,
-      transparent calc(50% - var(--_line-disabled-width)),
-      var(--color-secondary) calc(50% - var(--_line-disabled-width)) calc(50% + var(--_line-disabled-width)),
-      transparent calc(50% + var(--_line-disabled-width))
-    );
-  }
+  
 {% endstylesheet %}

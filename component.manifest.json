@@ -1,7 +1,7 @@
 {
   "collections": {
     "@archetype-themes/components": {
-      "commit": "e925b1e75a06b1ed857405da911d687af09a40d3",
+      "commit": "c3967e4738a27f083b69874feee7d45b83f2837f",
       "version": "3.1.3"
     }
   },
@@ -298,6 +298,7 @@
       "theme-editor.js": "@theme",
       "util.misc.js": "@archetype-themes/components",
       "utility.color-scheme-texture.css": "@archetype-themes/components",
+      "utility.product-hot-reload.js": "@archetype-themes/components",
       "utility.stylesheet.js": "@archetype-themes/components",
       "video-section.css": "@theme",
       "wave.svg": "@archetype-themes/components"
@@ -324,6 +325,7 @@
       "facets.liquid": "@theme",
       "form.product.liquid": "@archetype-themes/components",
       "gift-card-recipient-form.liquid": "@theme",
+      "head.import-map.liquid": "@theme",
       "header-drawer.liquid": "@theme",
       "header-dropdown-menu.liquid": "@theme",
       "header-mega-menu.liquid": "@theme",
@@ -359,6 +361,7 @@
       "utility.breakpoint.liquid": "@theme",
       "utility.color-scheme-texture.liquid": "@archetype-themes/components",
       "utility.id.liquid": "@archetype-themes/components",
+      "utility.product-hot-reload.liquid": "@archetype-themes/components",
       "utility.stylesheet.liquid": "@archetype-themes/components",
       "utility.translate.liquid": "@archetype-themes/components"
     }

@@ -91,7 +91,6 @@
   assign classes = classes | append: ' image-element'
 %}
 
-<is-land on:visible data-image-type="{{ type }}">
   {%- liquid
     # Default scenario for images
     if type == blank
@@ -192,4 +191,10 @@
         data-animate: animation
     }}
   {% endif %}
-</is-land>
+
+  {% stylesheet %}
+  .image-element {
+    width: 100%;
+    height: auto;
+  }
+  {% endstylesheet %}
