@@ -115,7 +115,7 @@
 {% endcapture %}
 
 {% capture product_details %}
-  {% render 'element.text', as: 'h1', variant: 'heading-xl', text: product.title %}
+  {% render 'element.text', as: 'h1 ', variant: 'heading-xl', text: product.title %}
   {% render 'element.price', price: product.price %}
   {% render 'form.product', product: product, slot: product_form_stack %}
   {% render 'element.text', variant: 'rte', text: product.description %}
@@ -130,7 +130,7 @@
   {{ product_details_stack }}
 {% endcapture %}
 
-{% capture grid %}
+{% capture grid_layout %}
   {% render 'layout.grid',
     columns_xs: 1,
     columns_md: 2,
@@ -139,51 +139,8 @@
   %}
 {% endcapture %}
 
-<section-main-product data-section-id="{{ section.id }}" data-product-url="{{ product.url }}">
-  {% render 'layout.section', slot: grid %}
-</section-main-product>
+{% capture section_layout %}
+  {% render 'layout.section', slot: grid_layout %}
+{% endcapture %}
 
-{% javascript %}
-  function onVariantChange(event) {
-    const optionValueElement = event.target;
-    const productFormElement = optionValueElement.closest('form');
-    const productElement = optionValueElement.closest('section-main-product');
-    const sectionId = productElement.dataset.sectionId;
-
-    // Combined listings: We use old and new product urls to determine if the product should change
-    const oldProductUrl = productElement.dataset.productUrl;
-    const newProductUrl = optionValueElement.dataset.productUrl;
-
-    // Get the selected option value IDs and format as query param
-    const selectedOptionValues = Array.from(productFormElement.querySelectorAll('fieldset input:checked')).map(
-      ({ dataset }) => dataset.optionValueId
-    );
-    const params = selectedOptionValues.length > 0 ? `&option_values=${selectedOptionValues.join(',')}` : '';
-
-    // Deferred variants: Fetch the option value picker with the new availability state when remaining on the same product
-    // Combined listings: Fetch the product associated with the selected option value and replace the entire product if switching to a sibling product
-    fetch(`${newProductUrl}?section_id=${sectionId}${params}`)
-      .then((response) => response.text())
-      .then((responseText) => {
-        const html = new DOMParser().parseFromString(responseText, 'text/html');
-
-        // Combined listings: If the product changed, replace the old product section with the new product section
-        if (newProductUrl && oldProductUrl !== newProductUrl) {
-          productElement.parentNode.insertBefore(html.querySelector('section-main-product'), productElement);
-          productElement.remove();
-
-          // Focus the input for the last clicked option value
-          document.querySelector(`#${event.target.id}`).focus();
-
-          return;
-        }
-
-        productFormElement.innerHTML = html.querySelector('form').innerHTML;
-        document.querySelector(`#${event.target.id}`).focus();
-
-        // Update any other sections that depend on the option value picker
-      });
-  }
-
-  document.addEventListener('change', onVariantChange);
-{% endjavascript %}
+{% render 'utility.product-hot-reload', section: section, product: product, slot: section_layout %}
