@@ -116,7 +116,7 @@
 
 {% capture product_details %}
   {% render 'element.text', as: 'h1 ', variant: 'heading-xl', text: product.title %}
-  {% render 'element.price', price: product.price %}
+  {% render 'element.price', price: product.price, size: 'lg' %}
   {% render 'form.product', product: product, slot: product_form_stack %}
   {% render 'element.text', variant: 'rte', text: product.description %}
 {% endcapture %}
