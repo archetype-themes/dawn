@@ -1,0 +1,94 @@
+{% doc %}
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A component that hot reloads the product form when a variant is selected or all of it's 
+  contents if a new product url is loaded via combined listings.
+
+  @param {string} slot - The slot to render the product form content in
+  @param {object} [section] - A section object
+  @param {object} [product] - A product object
+
+  @example Basic Example
+  {% capture product_form_content %}
+    {% for option in product.options_with_values %}
+      {% for value in option.values %}
+        {%- capture input_attributes -%}
+          {% render 'product.hot-reload.radio-attributes', value: value %}
+        {%- endcapture -%}
+
+        {%- render 'element.radio',
+          name: option.name,
+          value: value,
+          label: value,
+          checked: value.selected,
+          attributes: input_attributes
+        -%}
+      {% endfor %}
+    {% endfor %}
+  {% endcapture %}
+
+  {% capture product_form %}
+    {% render 'element.text', as: 'h1 ', variant: 'heading-xl', text: product.title %}
+    {% render 'form.product', product: product, slot: product_form_content %}
+  {% endcapture %}
+
+  {% render 'product.hot-reload', section: section, product: product, slot: product_form %}
+{% enddoc %}
+
+{% capture id %}
+  {% render 'utility.id', name: 'product-hot-reload' %}
+{% endcapture %}
+
+<product-hot-reload id="{{ id }}" data-section-id="{{ section.id }}" data-product-url="{{ product.url }}" data-uid="{{ uid }}">
+  {{ slot }}
+</product-hot-reload>
+
+{% javascript %}
+  class ProductHotReload extends HTMLElement {
+    constructor() {
+      super();
+      this.addEventListener('change', (event) => this.onVariantChange(event));
+    }
+
+    onVariantChange(event) {
+      const optionValueElement = event.target;
+      const productFormElement = optionValueElement.closest('form');
+      const sectionId = this.dataset.sectionId;
+
+      // Combined listings: We use old and new product urls to determine if the product should change
+      const oldProductUrl = this.dataset.productUrl;
+      const newProductUrl = optionValueElement.dataset.productUrl;
+
+      // Get the selected option value IDs and format as query param
+      const selectedOptionValues = Array.from(productFormElement.querySelectorAll('fieldset input:checked')).map(
+        ({ dataset }) => dataset.optionValueId
+      );
+      const params = selectedOptionValues.length > 0 ? `&option_values=${selectedOptionValues.join(',')}` : '';
+
+      // Deferred variants: Fetch the option value picker with the new availability state when remaining on the same product
+      // Combined listings: Fetch the product associated with the selected option value and replace the entire product if switching to a sibling product
+      fetch(`${newProductUrl}?section_id=${sectionId}${params}`)
+        .then((response) => response.text())
+        .then((responseText) => {
+          const html = new DOMParser().parseFromString(responseText, 'text/html');
+
+          // Combined listings: If the product changed, replace the old product section with the new product section
+          if (newProductUrl && oldProductUrl !== newProductUrl) {
+            this.innerHTML = html.getElementById(this.id).innerHTML;
+
+            // Focus the input for the last clicked option value
+            this.querySelector(`#${event.target.id}`).focus();
+
+            return;
+          }
+
+          productFormElement.innerHTML = html.querySelector('form').innerHTML;
+          this.querySelector(`#${event.target.id}`).focus();
+
+          // Update any other sections that depend on the option value picker
+        });
+    }
+  }
+
+  customElements.define('product-hot-reload', ProductHotReload);
+{% endjavascript %}

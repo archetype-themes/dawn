@@ -1,8 +1,8 @@
 {% doc %}
   Price component
 
-  @param {number} price - Price to be formatted
   @param {boolean} [superscript_decimals] - Whether to superscript decimals (default: true)
+  @param {number} [price] - Price to be formatted
   @param {boolean} [strikethrough] - Whether to use the strikethrough price style (default: false)
   @param {string} [classlist] - Optional CSS class for the price wrapper
   @param {string} [style] - Optional CSS style for the price wrapper
@@ -49,7 +49,7 @@
   style: style
 -%}
 
-{% stylesheet %}
+{% stylesheet %} 
   .element-price {
     /* Colors */
     --_color-primary: var(--color-primary, inherit);

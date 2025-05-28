@@ -1,41 +1,59 @@
 {% doc %}
-  Button component
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
 
-  @param {'button'|'a'} [as] - HTML element to use (default: 'button' or 'a' if href provided)
-  @param {'button'|'submit'|'reset'} [type] - Button type attribute
+  A versatile button component that can be rendered as either a button or anchor element.
+  Supports various states (hover, focus, active, disabled), color schemes (default, inverted, transparent),
+  and can include optional icons with configurable positioning. The component is highly customizable
+  through props while maintaining consistent styling and behavior.
+
+  Element 
+  @param {string} [as] ('button'|'a') - HTML element to use (default: 'button' or 'a' if href provided)
   @param {string} [id] - Button ID attribute
-  @param {string} [classlist] - Additional classes to add
+  @param {string} [classlist] - Additional classes to class attribute
   @param {string} [attributes] - Additional HTML attributes
-  @param {string} [style] - Inline styles to apply
-  @param {url} [href] - URL for anchor buttons
+  @param {string} [style] - Inline styles to apply to style attribute
+  @param {string} [type] ('button'|'submit'|'reset') - Button type attribute
+  @param {string} [href] - URL for anchor buttons
+  @param {string} [name] - Button name attribute
+  @param {boolean} [disabled] - Whether button is disabled 
+
+  Variants
+  @param {boolean} [inverted] - Use inverted color scheme
+  @param {boolean} [full] - Make button full width
+  @param {boolean} [transparent] - Use transparent background
+
+  Content
+  @param {string} [slot] - Custom content slot
   @param {string} [text] - Text content for the button
   @param {string} [icon] - Icon name to display
-  @param {'start'|'end'} [icon_position] - Position of icon relative to text (default: 'end')
-  @param {boolean} [full] - Whether button is full width
-  @param {boolean} [disabled] - Whether button is disabled
-  @param {boolean} [inverted] - Use inverted color scheme
-  @param {boolean} [transparent] - Use transparent background
+  @param {string} [icon_position] ('start'|'end') - Position of icon relative to text (default: 'end')
 
   @example
   {% render 'element.button', text: 'Click me', href: '/products', icon: 'arrow-right' %}
-{% enddoc %}
+{% enddoc %} 
 
 {% liquid
+  # Element Defaults
   assign as = as | default: 'button'
-  assign icon = icon | default: ''
-  assign text = text | default: ''
-  assign classlist = classlist | default: '' | append: ' element-button' | strip
   assign id = id | default: ''
-  assign href = href | default: ''
-  assign type = type | default: ''
-  assign disabled = disabled | default: false
+  assign classlist = classlist | default: '' | append: ' element-button' | strip
   assign attributes = attributes | default: ''
   assign style = style | default: ''
-  assign inverted = inverted | default: false
-  assign transparent = transparent | default: false
-  assign full = full | default: false
+  assign type = type | default: ''
+  assign href = href | default: ''
   assign name = name | default: ''
+  assign disabled = disabled | default: false
+
+  # Variants
+  assign inverted = inverted | default: false
+  assign full = full | default: false
+  assign transparent = transparent | default: false
+
+  # Content
   assign slot = slot | default: ''
+  assign text = text | default: ''
+  assign icon = icon | default: ''
+  assign icon_position = icon_position | default: 'end'
 
   if href != blank
     assign as = 'a'
@@ -50,11 +68,11 @@
   endif
 
   if full
-    assign classlist = classlist | append: ' element-button--full'
+    assign style = '--element-button-width: 100%; ' | append: style
   endif
 
   if icon_position == 'start'
-    assign style = '--button-flex-direction: row-reverse; ' | append: style
+    assign style = '--element-button-flex-direction: row-reverse; ' | append: style
   endif
 %}
 
@@ -104,133 +122,182 @@
   {{ slot }}
 </{{ as }}>
 
+{% render 'style.primitive-tokens' %}
+
 {% stylesheet %}
   :root {
-    --button-color-primary: #000;
-    --button-color-secondary: #FFF;
+    /* Base Layout Variables */
+    --element-button-display: inline-flex;
+    --element-button-width: fit-content;
+    --element-button-height: auto;
+    --element-button-radius: var(--radius-xs); 
+    --element-button-flex-direction: row;
+    --element-button-gap: var(--size-2);
+    --element-button-justify-content: center;
+    --element-button-align-items: center;
+    --element-button-white-space: nowrap;
+
+    /* Base Spacing Variables */
+    --element-button-padding-block: var(--size-3);
+    --element-button-padding-inline: var(--size-5);
+    --element-button-border-width: var(--size-0-25);
+
+    /* Base Color Variables */
+    --element-button-color-primary: var(--color-primary, #000);
+    --element-button-color-secondary: var(--color-secondary, #fff);
+    --element-button-shade-background: 0%;
+    --element-button-shade-text: 0%;
+    --element-button-shade-border: 20%;
+
+    /* Base Effect Variables */
+    --element-button-drop-shadow: var(--shadow-none);
+    --element-button-transition-duration: 200ms;
+    --element-button-transition-timing: ease;
+    --element-button-transform: none;
+    --element-button-backdrop-filter: none;
+    --element-button-opacity: 1;
+
+    /* Hover State Variables */
+    --element-button-shade-background--hover: 8%;
+    --element-button-shade-border--hover: 30%;
+
+    /* Focus State Variables */
+    --element-button-color-focus: var(--color-focus);
+    --element-button-border-width--focus: var(--size-0-5);
+
+    /* Active State Variables */
+    --element-button-shade-background--active: 16%;
+    --element-button-shade-border--active: var(--element-button-shade-border);
+
+    /* Disabled State Variables */
+    --element-button-shade-background--disabled: 12%;
+    --element-button-shade-text--disabled: 70%;
+    --element-button-shade-border--disabled: 0%;
   }
 
+  /* Component Implementation */
   .element-button {
-    /* Layout & Typography */
-    --_display: var(--button-display, inline-flex);
-    --_py: var(--button-py, var(--size-3));
-    --_px: var(--button-px, var(--size-5));
-    --_height: var(--button-height, auto);
-    --_width: var(--button-width, fit-content);
-    --_radius: var(--button-radius, var(--radius-xs));
-    --_font-family: var(--button-font-family, var(--body-font-family), var(--body-font-family-fallback));
-    --_font-size: var(--button-font-size, var(--body-md-font-size));
-    --_letter-spacing: var(--button-letter-spacing, var(--body-letter-spacing));
-    --_line-height: var(--button-line-height, var(--body-line-height));
-    --_border-width: var(--button-border-width, var(--size-0-25));
-    --_icon-size: var(--button-icon-size, var(--body-md-font-size));
-    --_flex-direction: var(--button-flex-direction, row);
+    /* Base Layout */
+    --_display: var(--element-button-display);
+    --_width: var(--element-button-width);
+    --_height: var(--element-button-height);
+    --_radius: var(--element-button-radius);
+    --_flex-direction: var(--element-button-flex-direction);
+    --_gap: var(--element-button-gap);
+    --_justify-content: var(--element-button-justify-content);
+    --_align-items: var(--element-button-align-items);
+    --_white-space: var(--element-button-white-space);
 
-    /* Colors */
-    --_color-primary: var(--button-color-primary, var(--color-primary));
-    --_color-secondary: var(--button-color-secondary, var(--color-secondary));
-    --_color-focus: var(--button-color-focus, var(--color-focus));
-    --_color-background: color-mix(in srgb, var(--_color-secondary) var(--_shade-background), var(--_color-primary));
-    --_color-text: color-mix(in srgb, var(--_color-primary) var(--_shade-text), var(--_color-secondary));
-    --_shade-active: var(--button-color-active-shade, 16%);
-    --_shade-hover: var(--button-color-hover-shade, 8%);
-    --_shade-background: var(--shade-background, 0%);
-    --_shade-text: var(--shade-text, 0%);
-    --_shade-border: var(--button-border-shade, 20%);
-    --_shade-border-hover: var(--button-border-shade-hover, 30%);
-    --_shade-disabled-border: var(--button-shade-disabled-border, 12%);
-    --_shade-disabled-background: var(--button-shade-disabled-background, 12%);
-    --_shade-disabled-text: var(--button-shade-disabled-text, 70%);
-    --_drop-shadow: var(--button-drop-shadow, var(--shadow-none));
-    --_inset-box-shadow: var(
-      --button-inset-box-shadow,
-      inset 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-secondary) var(--_shade-border), transparent)
-    );
+    /* Base Spacing */
+    --_padding-block: var(--element-button-padding-block);
+    --_padding-inline: var(--element-button-padding-inline);
+    --_border-width: var(--element-button-border-width);
 
+    /* Base Colors */
+    --_color-primary: var(--element-button-color-primary);
+    --_color-secondary: var(--element-button-color-secondary);
+    --_color-focus: var(--element-button-color-focus);
+    --_outline: none;
+    --_border: none;
+    --_shade-background: var(--element-button-shade-background);
+    --_shade-text: var(--element-button-shade-text);
+    --_shade-border: var(--element-button-shade-border);
+    --_box-shadow: inset 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-secondary) var(--_shade-border), transparent);
+
+    /* Base Effects */
+    --_drop-shadow: var(--element-button-drop-shadow);
+    --_transition-duration: var(--element-button-transition-duration);
+    --_transition-timing: var(--element-button-transition-timing);
+    --_transform: var(--element-button-transform);
+    --_backdrop-filter: var(--element-button-backdrop-filter);
+    --_opacity: var(--element-button-opacity);
+
+    /* Base Styles */
     display: var(--_display);
     width: var(--_width);
     height: var(--_height);
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
+    justify-content: var(--_justify-content);
+    align-items: var(--_align-items);
+    white-space: var(--_white-space);
     flex-direction: var(--_flex-direction);
-    gap: var(--size-2);
-    padding-inline: var(--_px);
-    padding-block: var(--_py);
+    gap: var(--_gap);
+    padding-block: var(--_padding-block);
+    padding-inline: var(--_padding-inline);
     border-radius: var(--_radius);
-    font-family: var(--_font-family);
-    font-size: var(--_font-size);
-    letter-spacing: var(--_letter-spacing);
-    line-height: var(--_line-height);
-    background-color: var(--_color-background);
-    color: var(--_color-text);
-    box-shadow: var(--_inset-box-shadow), var(--_drop-shadow);
-    outline: none;
-    border: none;
+    background-color: color-mix(in srgb, var(--_color-secondary) var(--_shade-background), var(--_color-primary));
+    color: color-mix(in srgb, var(--_color-primary) var(--_shade-text), var(--_color-secondary));
+    box-shadow: var(--_box-shadow);
+    outline: var(--_outline);
+    border: var(--_border);
+    transform: var(--_transform);
+    backdrop-filter: var(--_backdrop-filter);
+    opacity: var(--_opacity);
+    transition: all var(--_transition-duration) var(--_transition-timing);
 
     & svg {
       --icon-size: var(--_icon-size);
     }
 
     &:has(> svg:only-child) {
-      --_px: var(--_py);
+      --_padding-inline: var(--_padding-block);
       --_display: flex;
     }
 
+    /* Hover State */
     &:hover {
-      --_shade-border: var(--_shade-border-hover);
-      --_shade-background: var(--_shade-hover);
+      --_shade-background: var(--element-button-shade-background--hover);
+      --_shade-border: var(--element-button-shade-border--hover);
     }
 
-    &:focus {
-      --_border-width: var(--size-0-5);
-      --_inset-box-shadow: 0 0 0 var(--_border-width) var(--_color-focus);
+    /* Focus State */
+    &:focus,
+    input[type='radio']:focus-visible + & {
+      --_border-width: var(--element-button-border-width--focus);
+      --_box-shadow: inset 0 0 0 var(--_border-width) var(--_color-focus);
     }
 
+    /* Disabled State */
     &:disabled,
     input[type='radio']:disabled + &,
     .disabled > input[type='radio'] + & {
-      --_shade-border: 0%;
-      --_shade-background: var(--_shade-disabled-background);
-      --_shade-text: var(--_shade-disabled-text);
+      --_shade-background: var(--element-button-shade-background--disabled);
+      --_shade-text: var(--element-button-shade-text--disabled);
+      --_shade-border: var(--element-button-shade-border--disabled);
+
+      &:is(:disabled) {
+        cursor: not-allowed;
+      }
     }
 
+    /* Active State */
     &:active,
     input[type='radio']:checked + & {
-      /* --_border-width: 0; */
-      --_shade-border: var(--button-border-shade, 20%);
-      --_shade-background: var(--_shade-active);
+      --_shade-background: var(--element-button-shade-background--active);
+      --_shade-border: var(--element-button-shade-border--active);
     }
 
+    /* Variants */
     &.element-button--inverted {
-      --_color-primary: var(--button-color-secondary, var(--color-secondary));
-      --_color-secondary: var(--button-color-primary, var(--color-primary));
-    }
-
-    &.element-button--full {
-      --_width: 100%;
-    }
-
-    &.element-button--inline {
-      --_display: inline-flex;
+      --_color-primary: var(--element-button-color-secondary);
+      --_color-secondary: var(--element-button-color-primary);
     }
 
     &.element-button--transparent {
       --_color-primary: transparent;
 
       &:disabled {
-        --_shade-border: var(--_shade-disabled-border);
+        --_shade-border: var(--element-button-shade-border--disabled);
         --_shade-background: 0%;
       }
 
       &:disabled:active {
-        --_border-width: var(--button-border-width, var(--size-0-25));
-        --_shade-border: var(--_shade-disabled-border);
+        --_border-width: var(--element-button-border-width);
+        --_shade-border: var(--element-button-shade-border--disabled);
       }
     }
 
     &:is(.shopify-payment-button__button--unbranded):hover:not([disabled]) {
-      background-color: var(--_color-background);
+      background-color: color-mix(in srgb, var(--_color-secondary) var(--_shade-background), var(--_color-primary));
     }
   }
 {% endstylesheet %}

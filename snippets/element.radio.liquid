@@ -1,5 +1,10 @@
 {% doc %}
-  Radio component
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A radio input component that provides a styled radio button with an optional label.
+  Supports various states (hover, focus, active, disabled) and can be customized through props.
+  The component maintains consistent styling and behavior while providing flexibility through
+  configuration options like custom attributes, styles and classes.
 
   @param {string} [id] - The ID of the radio field
   @param {number} [index] - The index of the radio field (default: 1)
@@ -24,15 +29,29 @@
   assign value = value | default: ''
   assign attributes = attributes | default: ''
   assign style = style | default: ''
-  assign classlist = classlist | default: '' | append: ' radio' | strip
+  assign classlist = classlist | default: '' | append: ' element-radio' | strip
   assign checked = checked | default: false
   assign display_icon = display_icon | default: true, allow_false: true
+  assign slot = slot | default: ''
 
   capture id_default
     render 'utility.id', name: name, index: index
   endcapture
   assign id = id | default: id_default
+
 -%}
+
+{%- if slot == blank -%}
+  {%- capture slot_default -%}
+    {%- if display_icon -%}
+      <span class="element-radio__icon"></span>
+    {%- endif -%}
+
+    {%- if label != blank -%}
+      {% render 'element.text', text: label, variant: 'body-md' %}
+    {%- endif -%}
+  {%- endcapture -%}
+{%- endif -%}
 
 <label
   class="{{ classlist }}"
@@ -64,51 +83,48 @@
       value="{{ value }}"
     {%- endif %}
   >
-  {%- if display_icon -%}
-    <span class="radio__icon"></span>
-  {%- endif -%}
 
-  {%- if label != blank -%}
-    {{ label }}
-  {%- endif -%}
+  {{ slot }}
 </label>
 
 {% stylesheet %}
   :root {
-    --radio-color-primary: #000;
-    --radio-color-secondary: #FFF;
+    --element-radio-size: var(--size-5);
+    --element-radio-dot-size: var(--size-2-5);
+    --element-radio-dot-opacity: 0;
+    --element-radio-radius: 50%;
+    --element-radio-gap: var(--size-2);
+    --element-radio-border-width: 1px;
+    --element-radio-border-width--focus: 2px;
+
+    --element-radio-color-primary: initial;
+    --element-radio-color-secondary: initial;
+    --element-radio-color-focus: var(--color-focus);
+    --element-radio-shade-background: 0%;
+    --element-radio-shade-background--hover: 4%;
+    --element-radio-shade-background--checked: 100%;
+    --element-radio-shade-background--disabled: 8%;
+    --element-radio-shade-border: 12%;
+    --element-radio-shade-border--disabled: 8%;
   }
 
-  .radio {
+  .element-radio {
     /* Layout & Typography */
-    --_size: var(--radio-size, var(--size-5));
-    --_dot-size: var(--radio-dot-size, var(--size-2-5));
-    --_dot-opacity: var(--radio-dot-opacity, 0);
-    --_radius: var(--radio-radius, 50%);
-    --_gap: var(--radio-gap, var(--size-2));
-    --_outline-width: var(--radio-outline-width, 1px);
-    --_outline-width-active: var(--radius-outline-width-active, 2px);
-    --_font-family: var(--radio-font-family, var(--body-font-family), var(--body-font-family-fallback));
-    --_font-size: var(--radio-font-size, var(--body-md-font-size));
-    --_letter-spacing: var(--radio-letter-spacing, var(--body-letter-spacing));
-    --_line-height: var(--radio-line-height, var(--body-line-height));
-    --_font-weight: var(--radio-font-weight, normal);
+    --_size: var(--element-radio-size);
+    --_dot-size: var(--element-radio-dot-size);
+    --_dot-opacity: var(--element-radio-dot-opacity);
+    --_radius: var(--element-radio-radius);
+    --_gap: var(--element-radio-gap);
+    --_border-width: var(--element-radio-border-width);
 
     /* Colors */
-    --_color-primary: var(--radio-color-primary, var(--color-primary));
-    --_color-secondary: var(--radio-color-secondary, var(--color-secondary));
-    --_color-active: var(--radio-color-active, var(--color-focus));
-    --_color-background: var(--_color-secondary);
-    --_color-text: var(--_color-primary);
-    --_color-shadow: var(
-      --radio-shadow-color,
-      color-mix(in srgb, var(--_color-primary) var(--_outline-shade), var(--_color-secondary))
-    );
-    --_outline-shade: var(--radio-outline-shade, 12%);
-    --_shadow-h-offset: var(--radio-shadow-horizontal-offset, 0);
-    --_shadow-v-offset: var(--radio-shadow-vertical-offset, 0);
-    --_shadow-blur: var(--radio-shadow-blur-radius, 0);
-    --_shadow-spread: var(--radio-shadow-spread-radius, var(--_outline-width));
+    --_color-primary: var(--element-radio-color-primary, var(--color-primary, #FFF));
+    --_color-secondary: var(--element-radio-color-secondary, var(--color-secondary, #000));
+    --_color-focus: var(--element-radio-color-focus, var(--color-focus, blue));
+    --_shade-background: var(--element-radio-shade-background);
+    --_shade-border: var(--element-radio-shade-border);
+
+    --_box-shadow: 0 0 0 var(--_border-width) color-mix(in srgb, var(--_color-primary) var(--_shade-border), var(--_color-secondary));
 
     @media (max-width: 768px) {
       --_size: var(--radio-size, var(--size-4));
@@ -120,12 +136,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--_gap);
-    color: var(--_color-text);
-    font-family: var(--_font-family);
-    font-size: var(--_font-size);
-    letter-spacing: var(--_letter-spacing);
-    line-height: var(--_line-height);
-    font-weight: var(--_font-weight);
+    cursor: pointer;
 
     input[type='radio'] {
       position: absolute;
@@ -134,27 +145,27 @@
     }
 
     &:hover {
-      --_color-background: color-mix(in srgb, var(--_color-primary) 4%, var(--_color-secondary));
+      --_shade-background: var(--element-radio-shade-background--hover);
     }
 
     &:has(input[type='radio']:checked) {
       --_dot-opacity: 1;
-      --_color-background: var(--_color-primary);
-      --_color-shadow: var(--_color-primary);
+      --_shade-background: var(--element-radio-shade-background--checked);
     }
 
     &:has(input[type='radio']:focus-visible) {
-      --_color-shadow: var(--_color-active);
-      --_outline-width: var(--_outline-width-active);
+      --_border-width: var(--element-radio-border-width--focus);
+      --_box-shadow: 0 0 0 var(--_border-width) var(--_color-focus);
     }
 
     &:has(input[type='radio']:disabled) {
-      --_color-background: color-mix(in srgb, var(--_color-primary) 8%, var(--_color-secondary));
-      --_color-shadow: color-mix(in srgb, var(--_color-primary) 8%, var(--_color-secondary));
+      --_shade-background: var(--element-radio-shade-background--disabled);
+      --_shade-border: var(--element-radio-shade-border--disabled);
+      cursor: not-allowed;
     }
   }
 
-  .radio__icon {
+  .element-radio__icon {
     position: relative;
     display: flex;
     justify-content: center;
@@ -162,9 +173,8 @@
     width: var(--_size);
     height: var(--_size);
     border-radius: var(--_radius);
-    box-shadow: var(--_shadow-h-offset) var(--_shadow-v-offset) var(--_shadow-blur) var(--_shadow-spread)
-      var(--_color-shadow);
-    background-color: var(--_color-background);
+    box-shadow: var(--_box-shadow);
+    background-color: color-mix(in srgb, var(--_color-primary) var(--_shade-background), var(--_color-secondary));
 
     &::before {
       content: '';

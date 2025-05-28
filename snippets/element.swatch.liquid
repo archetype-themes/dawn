@@ -64,6 +64,11 @@
 ></{{ element }}>
 
 {% stylesheet %}
+  :root {
+    --swatch-color-primary: #000;
+    --swatch-color-secondary: #fff;
+  }
+
   .swatch {
     /* Layout */
     --_size-small: var(--swatch-size-small, var(--size-4));
@@ -76,8 +81,8 @@
     --_line-disabled-width: var(--swatch-line-disabled-width, max(var(--size-0-25), calc(var(--_size) * 0.0625)));
 
     /* Colors */
-    --_color-primary: var(--color-primary);
-    --_color-secondary: var(--color-secondary);
+    --_color-primary: var(--swatch-color-primary, var(--color-primary));
+    --_color-secondary: var(--swatch-color-secondary, var(--color-secondary));
     --_color-background: var(--swatch-color-background, var(--_color-primary));
     --_color-background-image: var(--swatch-color-background-image, none);
     --_color-border: var(--swatch-color-border, var(--_color-primary));

@@ -4,10 +4,10 @@
     --color-secondary: rgb(var(--color-background));
 
     --layout-section-max-inline-size: 110rem;
-    --layout-section-px--xs: 1.5rem;
-    --layout-section-px--md: 5rem;
+    --layout-section-padding-inline--xs: 1.5rem;
+    --layout-section-padding-inline--md: 5rem;
 
-    --button-radius: 0;
+    --element-button-radius: 0;
 
     --body-font-family: var(--font-body-family);
     --body-font-family-fallback: 'sans-serif';
@@ -91,7 +91,7 @@
 
             {% assign input_value = value | escape %}
 
-            {%- capture input_label -%}
+            {%- capture input_content -%}
               {% if value.swatch %}
                 {%- render 'element.swatch', swatch: value.swatch, large: true, selected: value.selected -%}
               {% else %}
@@ -100,17 +100,15 @@
             {%- endcapture -%}
 
             {%- capture input_attributes -%}
-              data-product-url="{{ value.product_url }}"
-              data-option-value-id="{{ value.id }}"
+              {% render 'product.hot-reload.radio-attributes', value: value %}
             {%- endcapture -%}
 
             {%- render 'element.radio',
               id: input_id,
               name: option.name,
               value: input_value,
-              label: input_label,
+              slot: input_content,
               checked: value.selected,
-              display_icon: false,
               classlist: classlist,
               attributes: input_attributes
             -%}
@@ -162,4 +160,4 @@
   {% render 'layout.section', slot: grid_layout %}
 {% endcapture %}
 
-{% render 'utility.product-hot-reload', section: section, product: product, slot: section_layout %}
+{% render 'product.hot-reload', section: section, product: product, slot: section_layout %}

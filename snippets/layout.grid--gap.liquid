@@ -17,25 +17,25 @@
   {% endstylesheet %}
 
 {% style %}
-  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'sm' -%}) {
     .layout-grid--gap {
       --_gap: var(--_gap--sm);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'md' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'md' -%}) {
     .layout-grid--gap {
       --_gap: var(--_gap--md);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'lg' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'lg' -%}) {
     .layout-grid--gap {
       --_gap: var(--_gap--lg);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'xl' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'xl' -%}) {
     .layout-grid--gap {
       --_gap: var(--_gap--xl);
     }

@@ -26,47 +26,48 @@
     gap: var(--_line-size);
     background-color: var(--_color-line);
 
-    &:is(.layout-grid--line) {
-      padding: var(--_line-size);
-    }
-
     &:after {
       content: '';
       display: var(--_filler-display);
+      display: block;
       height: 100%;
       grid-column: span var(--_filler-span);
       background-color: var(--_color-secondary);
+    }
+
+    &:is(.layout-grid--line) {
+      padding: var(--_line-size);
     }
   }
 {% endstylesheet %}
 
 {% style %}
-  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'sm' -%}) {
     .layout-grid--line,
     .layout-grid--line-internal {
-      --_active-filler-span: var(--_filler-span--sm);
-      --_active-filler-display: var(--_filler-display--sm);
+      --_filler-span: var(--_filler-span--sm);
+      --_filler-display: var(--_filler-display--sm);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'md' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'md' -%}) {
     .layout-grid--filler-span--md {
-      --_active-filler-span: var(--_filler-span--md);
-      --_active-filler-display: var(--_filler-display--md);
+      --_filler-span: var(--_filler-span--md);
+      --_filler-display: var(--_filler-display--md);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'lg' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'lg' -%}) {
     .layout-grid--filler-span--lg {
-      --_active-filler-span: var(--_filler-span--lg);
-      --_active-filler-display: var(--_filler-display--lg);
+      --_filler-span: var(--_filler-span--lg);
+      --_filler-display: var(--_filler-display--lg);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'xl' %}) {  
+  @media ({%- render 'utility.breakpoint', size: 'xl' -%}) {  
     .layout-grid--filler-span--xl {
-      --_active-filler-span: var(--_filler-span--xl);
-      --_active-filler-display: var(--_filler-display--xl);
+      --_filler-span: var(--_filler-span--xl);
+      --_filler-display: var(--_filler-display--xl);
     }
   }
 {% endstyle %}

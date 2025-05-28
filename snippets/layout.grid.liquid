@@ -1,25 +1,30 @@
 {% doc %}
-  Grid layout component that creates a responsive grid with customizable columns, gaps, and alignment.
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A versatile grid layout component that provides flexible column-based layouts with responsive control.
+  Supports various styling options including gaps, lines between columns, and color schemes. The grid
+  automatically adjusts columns across different breakpoints and can optionally fill remaining space
+  with placeholder columns. Highly customizable through props while maintaining consistent layout patterns.
 
   @param {string} slot - The slot content to wrap
   @param {string} [classlist] - Additional classes to add
   @param {string} [style] - Inline styles to apply
   @param {string} [variant] - The variant of the grid (default: 'gap'), options: 'line', 'line-internal', 'gap'
-  @param {string|color_scheme} [color_scheme] - The color scheme of the grid (default: 'none'), options: 'none', '1', '2', '3' or color scheme object
-  @param {string} [align] - The alignment of the grid (default: 'center'), options: 'center', 'start', 'end'
+  @param {string} [color_scheme] ('none'|'1'|'2'|'3') - The color scheme of the grid (default: 'none')
+  @param {string} [align] ('center'|'start'|'end') - The alignment of the grid (default: 'center')
   @param {number} [columns] - The number of columns in the grid (same for all screens)
   @param {number} [columns_xs] - The number of columns in the grid for xs screens
   @param {number} [columns_sm] - The number of columns in the grid for sm screens
   @param {number} [columns_md] - The number of columns in the grid for md screens
   @param {number} [columns_lg] - The number of columns in the grid for lg screens
   @param {number} [columns_xl] - The number of columns in the grid for xl screens
-  @param {number} [gap] - The size of the gap between the grid items (same for all screens)
-  @param {number} [gap_xs] - The size of the gap between the grid items for xs screens
-  @param {number} [gap_sm] - The size of the gap between the grid items for sm screens
-  @param {number} [gap_md] - The size of the gap between the grid items for md screens
-  @param {number} [gap_lg] - The size of the gap between the grid items for lg screens
-  @param {number} [gap_xl] - The size of the gap between the grid items for xl screens
-  @param {string} [lines] - The size of lines in the grid (default: 'sm'), options: 'none', 'xs', 'sm', 'md', 'lg', 'xl'
+  @param {string} [gap] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - The size of the gap between the grid items (same for all screens)
+  @param {string} [gap_xs] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - The size of the gap between the grid items for xs screens
+  @param {string} [gap_sm] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - The size of the gap between the grid items for sm screens
+  @param {string} [gap_md] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - The size of the gap between the grid items for md screens
+  @param {string} [gap_lg] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - The size of the gap between the grid items for lg screens
+  @param {string} [gap_xl] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - The size of the gap between the grid items for xl screens
+  @param {string} [lines] ('none'|'xs'|'sm'|'md'|'lg'|'xl') - The size of lines in the grid (default: 'sm')
   @param {number} [item_count] - The number of items in the grid. If provided, the grid will automatically add filler columns to the end of the grid to fill the remaining space when using the 'line' or 'line-internal' variant.
 
   @example
@@ -176,15 +181,17 @@
   endif
 %}
 
+<div class="{{ classlist }}" style="{{ style }}">
+  {{ slot }}
+</div>
+
+{% render 'style.primitive-tokens' %}
+
 {% if variant == 'line' or variant == 'line-internal' %}
   {% render 'layout.grid--line' %}
 {% elsif variant == 'gap' %}
   {% render 'layout.grid--gap' %}
 {% endif %}
-
-<div class="{{ classlist }}" style="{{ style }}">
-  {{ slot }}
-</div>
 
 {% stylesheet %}
   .layout-grid {
@@ -204,25 +211,25 @@
 {% endstylesheet %}
 
 {% style %}
-  @media ({% render 'utility.breakpoint', size: 'sm' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'sm' -%}) {
     .layout-grid {
       --_columns: var(--_columns--sm);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'md' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'md' -%}) {
     .layout-grid {
       --_columns: var(--_columns--md);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'lg' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'lg' -%}) {
     .layout-grid {
       --_columns: var(--_columns--lg);
     }
   }
 
-  @media ({% render 'utility.breakpoint', size: 'xl' %}) {
+  @media ({%- render 'utility.breakpoint', size: 'xl' -%}) {
     .layout-grid {
       --_columns: var(--_columns--xl);
     }

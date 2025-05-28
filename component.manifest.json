@@ -1,7 +1,7 @@
 {
   "collections": {
     "@archetype-themes/components": {
-      "commit": "c3967e4738a27f083b69874feee7d45b83f2837f",
+      "commit": "57b316cc88681b30f8e120adbb2061cf45c9baed",
       "version": "3.1.3"
     }
   },
@@ -298,7 +298,6 @@
       "theme-editor.js": "@theme",
       "util.misc.js": "@archetype-themes/components",
       "utility.color-scheme-texture.css": "@archetype-themes/components",
-      "utility.product-hot-reload.js": "@archetype-themes/components",
       "utility.stylesheet.js": "@archetype-themes/components",
       "video-section.css": "@theme",
       "wave.svg": "@archetype-themes/components"
@@ -325,7 +324,6 @@
       "facets.liquid": "@theme",
       "form.product.liquid": "@archetype-themes/components",
       "gift-card-recipient-form.liquid": "@theme",
-      "head.import-map.liquid": "@theme",
       "header-drawer.liquid": "@theme",
       "header-dropdown-menu.liquid": "@theme",
       "header-mega-menu.liquid": "@theme",
@@ -349,6 +347,8 @@
       "product-thumbnail.liquid": "@theme",
       "product-variant-options.liquid": "@theme",
       "product-variant-picker.liquid": "@theme",
+      "product.hot-reload.liquid": "@archetype-themes/components",
+      "product.hot-reload.radio-attributes.liquid": "@archetype-themes/components",
       "progress-bar.liquid": "@theme",
       "quantity-input.liquid": "@theme",
       "quick-order-list-row.liquid": "@theme",
@@ -361,7 +361,6 @@
       "utility.breakpoint.liquid": "@theme",
       "utility.color-scheme-texture.liquid": "@archetype-themes/components",
       "utility.id.liquid": "@archetype-themes/components",
-      "utility.product-hot-reload.liquid": "@archetype-themes/components",
       "utility.stylesheet.liquid": "@archetype-themes/components",
       "utility.translate.liquid": "@archetype-themes/components"
     }

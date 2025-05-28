@@ -1,16 +1,20 @@
 {% doc %}
-  Stack layout component that wraps content and stacks that content vertically or horizontally.
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A versatile layout component that provides flexible stacking of elements in either vertical or horizontal orientation.
+  Supports responsive gap sizing, flex wrapping, justification and alignment controls, and can be reversed.
+  The component is highly customizable through props while maintaining consistent spacing and layout behavior.
 
   @param {string} slot - The slot content to wrap
   @param {string} [as] - The HTML element to use for the stack (default: 'div')
   @param {string} [id] - ID attribute
   @param {string} [classlist] - Additional classes to add
-  @param {string} [gap] - Gap size between items, options: 'none', 'xs', 'sm', 'md', 'lg', 'xl'
-  @param {number} [gap_xs] - Gap size between items for xs screens
-  @param {number} [gap_sm] - Gap size between items for sm screens
-  @param {number} [gap_md] - Gap size between items for md screens
-  @param {number} [gap_lg] - Gap size between items for lg screens
-  @param {number} [gap_xl] - Gap size between items for xl screens
+  @param {string} [gap] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - Gap size between items, default: 'none'
+  @param {string} [gap_xs] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - Gap size between items for xs breakpoint
+  @param {string} [gap_sm] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - Gap size between items for sm breakpoint
+  @param {string} [gap_md] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - Gap size between items for md breakpoint
+  @param {string} [gap_lg] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - Gap size between items for lg breakpoint
+  @param {string} [gap_xl] ('none'|'2xs'|'xs'|'sm'|'md'|'lg'|'xl') - Gap size between items for xl breakpoint
   @param {boolean} [horizontal] - Whether the stack should be horizontal (default: false)
   @param {boolean} [reverse] - Whether the stack should be reversed (default: false)
   @param {string} [wrap] - Controls flex wrapping (default: 'wrap'), options: 'wrap', 'nowrap', 'wrap-reverse'
@@ -20,7 +24,7 @@
   @param {string} [style] - Inline styles to apply
 
   @example
-  {% render 'layout.stack', slot: content, horizontal: true, reverse: true %}
+  {% render 'layout.stack', slot: content, horizontal: true, reverse: true, gap: 'xs' %}
 {% enddoc %}
 
 {% liquid
@@ -112,40 +116,71 @@
   {{ slot }}
 </{{ as }}>
 
+{% render 'style.primitive-tokens' %}
+
 {% stylesheet %}
+  :root {
+    --layout-stack-gap: var(--gap-size-none);
+    --layout-stack-gap--xs: initial;
+    --layout-stack-gap--sm: initial;
+    --layout-stack-gap--md: initial;
+    --layout-stack-gap--lg: initial;
+    --layout-stack-gap--xl: initial;
+
+    --layout-stack-row-gap: initial;
+    --layout-stack-row-gap--xs: initial;
+    --layout-stack-row-gap--sm: initial;
+    --layout-stack-row-gap--md: initial;
+    --layout-stack-row-gap--lg: initial;
+    --layout-stack-row-gap--xl: initial;
+
+    --layout-stack-column-gap: initial;
+    --layout-stack-column-gap--xs: initial;
+    --layout-stack-column-gap--sm: initial;
+    --layout-stack-column-gap--md: initial;
+    --layout-stack-column-gap--lg: initial;
+    --layout-stack-column-gap--xl: initial;
+
+    --layout-stack-justify: flex-start;
+    --layout-stack-align: stretch;
+    --layout-stack-margin: 0;
+    --layout-stack-direction: column;
+    --layout-stack-wrap: wrap;
+  }
+
   .layout-stack {
     /* Layout & Typography */
-    --_gap--xs: var(--layout-stack-gap--xs, var(--layout-stack-gap, 0));
+    --_gap--xs: var(--layout-stack-gap--xs, var(--layout-stack-gap));
     --_gap--sm: var(--layout-stack-gap--sm, var(--_gap--xs));
     --_gap--md: var(--layout-stack-gap--md, var(--_gap--sm));
     --_gap--lg: var(--layout-stack-gap--lg, var(--_gap--md));
     --_gap--xl: var(--layout-stack-gap--xl, var(--_gap--lg));
     --_gap: var(--_gap--xs);
 
-    --_gap-y--xs: var(--layout-stack-gap-y--xs, var(--layout-stack-gap-y, var(--_gap)));
-    --_gap-y--sm: var(--layout-stack-gap-y--sm, var(--_gap-y--xs));
-    --_gap-y--md: var(--layout-stack-gap-y--md, var(--_gap-y--sm));
-    --_gap-y--lg: var(--layout-stack-gap-y--lg, var(--_gap-y--md));
-    --_gap-y--xl: var(--layout-stack-gap-y--xl, var(--_gap-y--lg));
-    --_gap-y: var(--_gap-y--xs);
+    --_row-gap--xs: var(--layout-stack-row-gap--xs, var(--layout-stack-row-gap, var(--_gap)));
+    --_row-gap--sm: var(--layout-stack-row-gap--sm, var(--_row-gap--xs));
+    --_row-gap--md: var(--layout-stack-row-gap--md, var(--_row-gap--sm));
+    --_row-gap--lg: var(--layout-stack-row-gap--lg, var(--_row-gap--md));
+    --_row-gap--xl: var(--layout-stack-row-gap--xl, var(--_row-gap--lg));
+    --_row-gap: var(--_row-gap--xs);
 
-    --_gap-x--xs: var(--layout-stack-gap-x--xs, var(--layout-stack-gap-x, var(--_gap)));
-    --_gap-x--sm: var(--layout-stack-gap-x--sm, var(--_gap-x--xs));
-    --_gap-x--md: var(--layout-stack-gap-x--md, var(--_gap-x--sm));
-    --_gap-x--lg: var(--layout-stack-gap-x--lg, var(--_gap-x--md));
-    --_gap-x--xl: var(--layout-stack-gap-x--xl, var(--_gap-x--lg));
-    --_gap-x: var(--_gap-x--xs);
+    --_column-gap--xs: var(--layout-stack-column-gap--xs, var(--layout-stack-column-gap, var(--_gap)));
+    --_column-gap--sm: var(--layout-stack-column-gap--sm, var(--_column-gap--xs));
+    --_column-gap--md: var(--layout-stack-column-gap--md, var(--_column-gap--sm));
+    --_column-gap--lg: var(--layout-stack-column-gap--lg, var(--_column-gap--md));
+    --_column-gap--xl: var(--layout-stack-column-gap--xl, var(--_column-gap--lg));
+    --_column-gap: var(--_column-gap--xs);
 
-    --_justify: var(--layout-stack-justify, flex-start);
-    --_align: var(--layout-stack-align, stretch);
-    --_margin: var(--layout-stack-margin, 0);
-    --_direction: var(--layout-stack-direction, column);
-    --_wrap: var(--layout-stack-wrap, wrap);
+    --_justify: var(--layout-stack-justify);
+    --_align: var(--layout-stack-align);
+    --_margin: var(--layout-stack-margin);
+    --_direction: var(--layout-stack-direction);
+    --_wrap: var(--layout-stack-wrap);
 
     display: flex;
     flex-direction: var(--_direction);
-    row-gap: var(--_gap-y);
-    column-gap: var(--_gap-x);
+    row-gap: var(--_row-gap);
+    column-gap: var(--_column-gap);
     flex-wrap: var(--_wrap);
     justify-content: var(--_justify);
     align-items: var(--_align);
@@ -156,7 +191,6 @@
 {% style %}
   @media ({% render 'utility.breakpoint', size: 'sm' %}) {
     .layout-stack {
-      --_gap: var(--_gap--sm);
       --_gap-y: var(--_gap-y--sm);
       --_gap-x: var(--_gap-x--sm);
     }
@@ -164,7 +198,6 @@
 
   @media ({% render 'utility.breakpoint', size: 'md' %}) {
     .layout-stack {
-      --_gap: var(--_gap--md);
       --_gap-y: var(--_gap-y--md);
       --_gap-x: var(--_gap-x--md);
     }
@@ -172,7 +205,6 @@
 
   @media ({% render 'utility.breakpoint', size: 'lg' %}) {
     .layout-stack {
-      --_gap: var(--_gap--lg);
       --_gap-y: var(--_gap-y--lg);
       --_gap-x: var(--_gap-x--lg);
     }
@@ -180,7 +212,6 @@
 
   @media ({% render 'utility.breakpoint', size: 'xl' %}) {
     .layout-stack {
-      --_gap: var(--_gap--xl);
       --_gap-y: var(--_gap-y--xl);
       --_gap-x: var(--_gap-x--xl);
     }

@@ -1,5 +1,10 @@
 {% doc %}
-  Layout section component that wraps content in a section with configurable styling.
+  Copyright © 2025 Archetype Themes LP. All rights reserved.
+
+  A layout component that renders a section with configurable styling and content.
+  Provides consistent section structure with support for color schemes, padding controls,
+  full width options, and content positioning. The component maintains theme-wide section
+  styling while allowing customization through props.
 
   @param {string} slot - The content to be rendered inside the section
   @param {string} [style] - Custom styles to be applied to the section
@@ -55,26 +60,48 @@
 </div>
 
 {% render 'style.primitive-tokens' %}
+
 {% stylesheet %}
+  :root {
+    --layout-section-max-inline-size: var(--page-width, 1500px);
+
+    --layout-section-padding-inline: var(--size-4);
+    --layout-section-padding-inline--xs: initial;
+    --layout-section-padding-inline--sm: initial;
+    --layout-section-padding-inline--md: initial;
+    --layout-section-padding-inline--lg: initial;
+    --layout-section-padding-inline--xl: initial;
+
+    --layout-section-padding-block: var(--size-8);
+    --layout-section-padding-block--xs: initial;
+    --layout-section-padding-block--sm: initial;
+    --layout-section-padding-block--md: initial;
+    --layout-section-padding-block--lg: initial;
+    --layout-section-padding-block--xl: initial;
+
+    --layout-section-color-primary: initial;
+    --layout-section-color-secondary: initial;
+  }
+
   .layout-section {
-    --_max-inline-size: var(--layout-section-max-inline-size, var(--page-width, 1200px));
+    --_max-inline-size: var(--layout-section-max-inline-size);
 
-    --_px--xs: var(--layout-section-px--xs, var(--layout-section-px, var(--size-4)));
-    --_px--sm: var(--layout-section-px--sm, var(--_px--xs));
-    --_px--md: var(--layout-section-px--md, var(--_px--sm));
-    --_px--lg: var(--layout-section-px--lg, var(--_px--md));
-    --_px--xl: var(--layout-section-px--xl, var(--_px--lg));
-    --_px: var(--_px--xs);
+    --_padding-inline--xs: var(--layout-section-padding-inline--xs, var(--layout-section-padding-inline));
+    --_padding-inline--sm: var(--layout-section-padding-inline--sm, var(--_padding-inline--xs));
+    --_padding-inline--md: var(--layout-section-padding-inline--md, var(--_padding-inline--sm));
+    --_padding-inline--lg: var(--layout-section-padding-inline--lg, var(--_padding-inline--md));
+    --_padding-inline--xl: var(--layout-section-padding-inline--xl, var(--_padding-inline--lg));
+    --_padding-inline: var(--_padding-inline--xs);
 
-    --_py--xs: var(--layout-section-py--xs, var(--layout-section-py, var(--size-8)));
-    --_py--sm: var(--layout-section-py--sm, var(--_py--xs));
-    --_py--md: var(--layout-section-py--md, var(--_py--sm));
-    --_py--lg: var(--layout-section-py--lg, var(--_py--md));
-    --_py--xl: var(--layout-section-py--xl, var(--_py--lg));
-    --_py: var(--_py--xs);
+    --_padding-block--xs: var(--layout-section-padding-block--xs, var(--layout-section-padding-block));
+    --_padding-block--sm: var(--layout-section-padding-block--sm, var(--_padding-block--xs));
+    --_padding-block--md: var(--layout-section-padding-block--md, var(--_padding-block--sm));
+    --_padding-block--lg: var(--layout-section-padding-block--lg, var(--_padding-block--md));
+    --_padding-block--xl: var(--layout-section-padding-block--xl, var(--_padding-block--lg));
+    --_padding-block: var(--_padding-block--xs);
 
-    --_color-primary: var(--color-primary);
-    --_color-secondary: var(--color-secondary);
+    --_color-primary: var(--layout-section-color-primary, var(--color-primary, #000));
+    --_color-secondary: var(--layout-section-color-secondary, var(--color-secondary, #fff));
 
     display: flex;
     width: 100vw;
@@ -83,7 +110,7 @@
     background-color: var(--_color-secondary);
     color: var(--_color-primary);
     overflow: hidden;
-    padding-inline: var(--_px);
+    padding-inline: var(--_padding-inline);
 
     & > .layout-section__content {
       display: block;
@@ -98,11 +125,11 @@
     }
 
     &.layout-section--padding-top {
-      padding-block-start: var(--_py);
+      padding-block-start: var(--_padding-block);
     }
 
     &.layout-section--padding-bottom {
-      padding-block-end: var(--_py);
+      padding-block-end: var(--_padding-block);
     }
   }
 {% endstylesheet %}
@@ -110,29 +137,30 @@
 {% style %}
   @media ({% render 'utility.breakpoint', size: 'sm' %}) {
     .layout-section {
-      --_px: var(--_px--sm);
-      --_py: var(--_py--sm);
+      --_padding-inline: var(--_padding-inline--sm);
+      --_padding-block: var(--_padding-block--sm);
     }
   }
+{% endstylesheet %}
 
   @media ({% render 'utility.breakpoint', size: 'md' %}) {
     .layout-section {
-      --_px: var(--_px--md);
-      --_py: var(--_py--md);
+      --_padding-inline: var(--_padding-inline--md);
+      --_padding-block: var(--_padding-block--md);
     }
   }
 
   @media ({% render 'utility.breakpoint', size: 'lg' %}) {
     .layout-section {
-      --_px: var(--_px--lg);
-      --_py: var(--_py--lg);
+      --_padding-inline: var(--_padding-inline--lg);
+      --_padding-block: var(--_padding-block--lg);
     }
   }
 
   @media ({% render 'utility.breakpoint', size: 'xl' %}) {
     .layout-section {
-      --_px: var(--_px--xl);
-      --_py: var(--_py--xl);
+      --_padding-inline: var(--_padding-inline--xl);
+      --_padding-block: var(--_padding-block--xl);
     }
   }
 {% endstyle %}
